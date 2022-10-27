@@ -1,0 +1,713 @@
+% !TeX TXS-program:compile = txs:///arara
+% arara: pdflatex: {shell: yes, synctex: no, interaction: batchmode}
+% arara: pdflatex: {shell: yes, synctex: no, interaction: batchmode} if found('log', '(undefined references|Please rerun|Rerun to get)')
+
+\documentclass{article}
+\usepackage[french]{babel}
+\usepackage{iftex,ifpdf,ifxetex,ifluatex}
+\ifpdftex
+	\usepackage[utf8]{inputenc}
+	\usepackage[T1]{fontenc}
+	\usepackage[upright]{fourier}
+	\usepackage[scaled=0.875]{helvet}
+	\renewcommand\ttdefault{lmtt}
+	\usepackage[scaled=0.875]{cabin}
+	\usepackage{amsmath,amssymb}
+\fi
+\ifluatex
+	\RequirePackage[math-style=french,bold-style=ISO]{fourier-otf}
+\fi
+\ifxetex
+	\RequirePackage[math-style=french,bold-style=ISO]{fourier-otf}
+\fi
+\usepackage{fontawesome5}
+\usepackage{enumitem}
+\usepackage{JeuxCartes}
+\usepackage{tabularray}
+\usepackage{fancyvrb}
+\usepackage{fancyhdr}
+\fancyhf{}
+\renewcommand{\headrulewidth}{0pt}
+\lfoot{\sffamily \small [JeuxCartes]}
+\cfoot{\sffamily \small - \thepage{} -}
+\rfoot{\hyperlink{matoc}{\small\faArrowAltCircleUp[regular]}}
+
+\usepackage{hvlogos}
+\usepackage{menukeys}
+\let\tab\relax
+\usepackage{tabto}
+\usepackage{codehigh}
+\usepackage{scontents}
+\usepackage{hyperref}
+\urlstyle{same}
+\hypersetup{pdfborder=0 0 0}
+\usepackage[margin=1.5cm]{geometry}
+\usepackage{newverbs}
+\newverbcommand{\pverb}{\color{purple}}{}
+\newverbcommand{\rverb}{\color{red}}{}
+\newverbcommand{\vverb}{\color{ForestGreen}}{}
+\newverbcommand{\averb}{\color{CadetBlue}}{}
+\newverbcommand{\overb}{\color{orange}}{}
+\newverbcommand{\bverb}{\color{blue}}{}
+\setlength{\parindent}{0pt}
+\definecolor{LightGray}{gray}{0.9}
+
+\def\TPversion{0.1.2}
+\def\TPdate{26 Octobre 2022}
+
+\usepackage[most]{tcolorbox}
+\usepackage[outputdir=build]{minted}
+\tcbuselibrary{minted}
+
+\tcbset{vignettes/.style={%
+		nobeforeafter,box align=base,boxsep=0pt,enhanced,sharp corners=all,rounded corners=southeast,%
+		boxrule=0.75pt,left=7pt,right=1pt,top=0pt,bottom=0.25pt,%
+	}
+}
+\tcbset{vignettelatex/.style={%
+		fontupper={\vphantom{pf}\footnotesize\ttfamily},
+		vignettes,%
+		colframe=CadetBlue,coltitle=white,colback=CadetBlue!5,%
+		overlay={\begin{tcbclipinterior}%
+				\fill[fill=lightgray!50]($(interior.south west)$) rectangle node[rotate=90]{\tiny \sffamily{\textcolor{CadetBlue}{\scalebox{0.6}[0.75]{\textbf{\LaTeX}}}}} ($(interior.north west)+(5pt,0pt)$);%
+		\end{tcbclipinterior}}
+	}
+}
+
+\newtcblisting{codetex}[1][]{%
+	colback=white,colframe=red!75!black,title={\small \faCode} Code \LaTeX,fonttitle=\sffamily\bfseries,left=3pt,right=3pt,top=2pt,bottom=2pt,#1}
+
+\newtcolorbox{codeattention}[1][]{%
+	colback=Yellow!50,colframe=Yellow!50!Black,title={\small \faBomb} Attention,fonttitle=\sffamily\bfseries,left=3pt,right=3pt,top=2pt,bottom=2pt,#1}
+
+\newtcolorbox{codesortie}[1][]{%
+	colback=white,colframe=red!75!black,title={\small \faArrowAltCircleRight[regular]} Sortie \LaTeX,fonttitle=\sffamily\bfseries,left=3pt,right=3pt,top=2pt,bottom=2pt,#1}
+
+\newtcolorbox{codeidee}[1][]{%
+	colback=white,colframe=PeachPuff!75!black,title={\small \faLightbulb[regular]} Idée(s),fonttitle=\sffamily\bfseries,left=3pt,right=3pt,top=2pt,bottom=2pt,#1}
+
+\newtcolorbox{codeinfo}[1][]{%
+	colback=white,colframe=SteelBlue,title={\small \faPuzzlePiece} Information(s),fonttitle=\sffamily\bfseries,left=3pt,right=3pt,top=2pt,bottom=2pt,#1}
+
+\newtcolorbox{codecles}[1][]{%
+	colback=white,colframe=ForestGreen!75,title={\small \faPaperclip} Clés et options,fonttitle=\sffamily\bfseries,left=3pt,right=3pt,top=2pt,bottom=2pt,#1}
+
+%petite vignette tex
+\newcommand\ctex[1]{\tcbox[vignettelatex]{#1}}
+
+\title{%
+\begin{minipage}{0.85\linewidth}
+	\begin{tcolorbox}[colframe=yellow,colback=yellow!15]
+		\begin{center}
+			\begin{tabular}{c}
+				\lstinline!JeuxCartes!\\
+				\\
+				Des cartes de poker ou de tarot, \\
+				simples ou en \textit{mains}, \\
+				avec possibilité de tirage aléatoire.
+			\end{tabular}
+		\end{center}
+	\end{tcolorbox}
+\end{minipage}
+}
+\author{
+	\begin{tabular}{c}
+		Cédric Pierquet\\
+		{\ttfamily c pierquet -- at -- outlook . fr}
+	\end{tabular}
+}
+\date{Version \TPversion{} -- \TPdate}
+
+\newcommand\Cle[1]{{\bfseries\sffamily\textlangle #1\textrangle}}
+
+\begin{document}
+
+\pagestyle{fancy}
+
+\maketitle
+
+\thispagestyle{empty}
+
+{\Large {\bfseries Résumé} : Quelques commandes pour afficher des cartes à jouer, de type Poker ou Tarot}
+
+\medskip
+
+\noindent Une commande pour créer une carte individuelle (insertion autonome ou via \TikZ).
+
+Une commande pour créer une main de cartes, avec possibilité d'affichage en éventail.
+
+Une commande pour créer une main aléatoire de cartes, avec possibilité d'affichage en éventail.
+
+Une commande pour des cartes en version \og miniatures \fg{} (individuelle, main ou aléatoire).
+
+\vspace{0.5cm}
+
+\begin{center}
+	\CartesJeu[Eventail,EspH=0,EspV=0.1]{7K § 8P § DT § AP § 10C § AC § 8T § 2K § VC}\hspace{0.5cm}\CartesJeu[TypeJeu=Tarot,EspH=0.85,EspV=0.2]{Exc § 1AT § CC § 8T § 2K § 5AT § 2AT § DP § 7T § 10C § 19AT § VP}
+\end{center}
+
+\hfill{}\textit{Merci aux membres du groupe \faFacebook{} du \og Coin \LaTeX{} \fg{} pour leur aide et leurs idées !}
+
+\vfill
+
+\hrule
+
+\medskip
+
+\begin{tblr}{width=\linewidth,colspec={X[c]X[c]X[c]X[c]X[c]X[c]},cells={font=\sffamily}}
+	{\huge \LaTeX} & & & & &\\
+	& {\huge \pdfLaTeX} & & & & \\
+	& & {\huge \LuaLaTeX} & & & \\
+	& & & {\huge \TikZ} & & \\
+	& & & & {\huge \TeXLive} & \\
+	& & & & & {\huge \MiKTeX} \\
+\end{tblr}
+
+\medskip
+
+\hrule
+
+\vfill
+
+~
+
+\newpage
+
+\phantomsection
+\hypertarget{matoc}{}
+
+\tableofcontents
+
+\vfill~
+
+\part{Historique}
+{\small \bverb|v0.1.2|~:~~~~Modification du nom (et de la source) des images de Tarot (CC0)
+
+{\small \bverb|v0.1.1|~:~~~~Ajout de commandes pour des mini-cartes
+
+{\small \bverb|v0.1  |~:~~~~Version initiale
+
+\vfill~
+
+\newpage
+
+\part*{Introduction}
+
+\section{Le package JeuxCartes}
+
+\subsection{\og Philosophie \fg{} du package}
+
+\begin{codeidee}
+L'idée de ce package est de proposer, comme le fait \ctex{pst-poker}, des commandes pour intégrer des cartes de poker dans un document \LaTeX.
+
+Les cartes sont des images :
+%
+\begin{itemize}
+	\item les cartes type \textsf{Poker} sont sous licence LGPL, \copyright{}2005, de David Bellot, via \url{https://github.com/htdebeer/SVG-cards} ;
+	\item les cartes type \textsf{Tarot} sous licence CC0, du site \url{https://freesvg.org}.
+\end{itemize}
+\end{codeidee}
+
+\begin{codeinfo}
+Le {package} \ctex{JeuxCartes} charge les {packages} :
+
+\begin{itemize}
+	\item \ctex{tikz}, \ctex{pifont}, \ctex{xfp}, \ctex{pgffor}, \ctex{xinttools} ;
+	\item \ctex{listofitems}, \ctex{xstring}, \ctex{xparse} et \ctex{simplekv} ;
+	\item \ctex{randomlist}, \ctex{xcolor} avec les options \ctex{[table,svgnames]}.
+\end{itemize}
+\end{codeinfo}
+
+\begin{codeinfo}
+Des packages ou solutions existent déjà pour des cartes en \LaTeX, le lecteur choirira donc la solution qui lui semblera être la meilleure pour son utilisation !
+
+On peut citer par exemple :
+
+\begin{itemize}
+	\item le packages \ctex{pst-poker} en language \texttt{pstricks} ;
+	\item les fichiers \texttt{postscript} disponibles sur \url{https://melusine.eu.org/syracuse/postscript/cartes01/}
+\end{itemize}
+\end{codeinfo}
+
+\begin{codeattention}
+Les images utiles sont proposés en format \texttt{png}, donc une solution de compilation adaptée au format \textsf{png} est nécessaire.
+\end{codeattention}
+
+\subsection{Chargement du package}
+
+\begin{codetex}[listing only]
+%exemple de chargement pour une compilation en (pdf)latex
+\documentclass{article}
+\usepackage[french]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{JeuxCartes}
+...
+\end{codetex}
+
+\begin{codetex}[listing only]
+%exemple de chargement pour une compilation en (xe/lua)latex
+\documentclass{article}
+\usepackage[french]{babel}
+\usepackage{mathtools}
+\usepackage{fontspec}
+\usepackage{JeuxCartes}
+...
+\end{codetex}
+
+\section{Compléments}
+
+\subsection{Le système de \og clés/options \fg}
+
+\begin{codeidee}
+L'idée est de conserver -- autant que faire se peut -- l'idée de \Cle{Clés} qui sont modifiables et relativement explicites. À noter que :
+%
+\begin{itemize}[leftmargin=*]
+	\item les \Cle{Clés} peuvent être mises dans n'importe quel ordre, et être omises lorsque la valeur par défaut est conservée ;
+	\item les \textsf{arguments} doivent, eux, être positionnés dans le \textit{bon ordre}.
+\end{itemize}
+\end{codeidee}
+
+\begin{codeinfo}
+Les \textsf{commandes} présentés seront explicités via leur \textsf{syntaxe} avec les \textsf{options} ou \textsf{arguments}.
+
+Autant que faire se peut, des exemples/illustrations/remarques seront proposés à chaque fois.
+
+\smallskip
+
+Les \textsf{codes} seront présentés dans des \textsf{boîtes} \textcolor{red!75!black}{{\small \faCode} Code \LaTeX}, si possible avec la \textsf{sortie} dans la même boîte, et sinon la \textsf{sortie} sera visible dans des \textsf{boîtes} \textcolor{red!75!black}{{\small \faArrowAltCircleRight[regular]} Sortie \LaTeX}. Les \textsf{clés} ou \textsf{options} seront présentées dans des \textsf{boîtes} \textcolor{ForestGreen}{{\small \faPaperclip} Clés}.
+\end{codeinfo}
+
+\part{Les commandes}
+
+\section{La commande simple \og CarteJeu \fg}
+
+\subsection{Introduction}
+
+\begin{codeinfo}
+La commande \ctex{AffCarteJeu} affiche une carte, avec un système de clés/options
+\end{codeinfo}
+
+\begin{codetex}[]
+\AffCarteJeu{VP}\AffCarteJeu{10K}\AffCarteJeu{AC}\AffCarteJeu{DosBleu}\AffCarteJeu{DT}\\ \\
+\AffCarteJeu[TypeJeu=Tarot]{VP}\AffCarteJeu[TypeJeu=Tarot]{Dos}
+\AffCarteJeu[TypeJeu=Tarot]{Exc}\AffCarteJeu[TypeJeu=Tarot]{1AT}
+\AffCarteJeu[TypeJeu=Tarot]{10K}\AffCarteJeu[TypeJeu=Tarot]{18AT}
+\end{codetex}
+
+\subsection{Noms de cartes}
+
+\begin{codeinfo}
+Les cartes étant des \textbf{images}, leur nom 
+est fixé suivant le modèle suivant (typiquement \texttt{<hauteur>.<couleur>} ) avec quelques spécificités :
+
+\begin{itemize}
+	\item cartes classiques pour Belote/Bataille/Poker :
+	\begin{itemize}
+		\item \texttt{2C}, \texttt{3C}, \ldots, \texttt{DC}, \texttt{RC}, \texttt{AC}\dotfill\Cle{Cœur}
+		\item \texttt{2P}, \texttt{3P}, \ldots, \texttt{DP}, \texttt{RP}, \texttt{AP}\dotfill\Cle{Pique}
+		\item \texttt{2K}, \texttt{3K}, \ldots, \texttt{DK}, \texttt{RK}, \texttt{AK}\dotfill\Cle{Carreau}
+		\item \texttt{2T}, \texttt{3T}, \ldots, \texttt{DT}, \texttt{RT}, \texttt{AT}\dotfill\Cle{Trèfle}
+		\item \texttt{JN}, \texttt{JR}\dotfill\Cle{Joker}
+		\item \texttt{DosRouge}, \texttt{DosBleu}, \ldots\dotfill\Cle{Dos}
+	\end{itemize}
+	\item cartes de Tarot  :
+	\begin{itemize}
+		\item \texttt{2C}, \texttt{3C}, \ldots, \texttt{CC}, \ldots, \texttt{AC}\dotfill\Cle{Cœur}
+		\item \texttt{2P}, \texttt{3P}, \ldots, \texttt{CP}, \ldots, \texttt{AP}\dotfill\Cle{Pique}
+		\item \texttt{2K}, \texttt{3K}, \ldots, \texttt{CK}, \ldots, \texttt{AK}\dotfill\Cle{Carreau}
+		\item \texttt{2T}, \texttt{3T}, \ldots, \texttt{CT}, \ldots, \texttt{AT}\dotfill\Cle{Trèfle}
+		\item \texttt{Exc}, \texttt{1AT}, \texttt{2AT}, \ldots, \texttt{20T}, \texttt{21AT}\dotfill\Cle{Atouts}
+		\item \texttt{Dos}\dotfill\Cle{Dos}
+	\end{itemize}
+\end{itemize}
+\end{codeinfo}
+
+\subsection{Clés et options}
+
+\begin{codetex}[listing only]
+\AffCarteJeu[options]{<carte>}
+\end{codetex}
+
+\begin{codecles}
+Concernant les \Cle{options} :
+
+\begin{itemize}
+	\item la clé \Cle{Hauteur} correspond à la hauteur voulue, en cm, de la carte ; \hfill{}défaut \Cle{4.25}
+	\item la clé \Cle{TypeJeu} (parmi \Cle{Poker} ou \Cle{Tarot}) pour spécifier les cartes à utiliser ; \hfill{}défaut \Cle{Poker}
+	\item la clé \Cle{Rotation} pour une éventuelle rotation de la carte ; \hfill{}défaut \Cle{0}
+	\item la clé \Cle{AlignementV} pour l'alignement vertical (lié à \ctex{raisebox} ou à \TikZ) ; \hfill{}défaut \Cle{0.5}
+	\item le booléen \Cle{Tikz} pour préciser que la carte est \textit{autonome}, dans un environnement \ctex{tikzpicture} ; \hfill{}défaut \Cle{false}
+	\item la clé \Cle{DecalageX} pour le décalage horizontal par rapport à l'origine (si \Cle{Tikz=false}) ; \hfill{}défaut \Cle{0}
+	\item la clé \Cle{DecalageY} pour le décalage vertical par rapport à l'origine (si \Cle{Tikz=false}) ; \hfill{}défaut \Cle{0}
+	\item le booléen \Cle{TikzAutonome} pour basculer d'un environnement \TikZ{} à une commande \TikZ. \hfill{}défaut \Cle{true}
+\end{itemize}
+\end{codecles}
+
+\begin{codeinfo}
+Concernant la clé \Cle{AlignementV}, elle peut être  :
+
+\begin{itemize}
+	\item donnée sous forme décimale entre 0 et 1 pour l'utilisation standard ;
+	\item choisie parmi 0, 0.5 et 1 pour l'utilisation via le mode \Cle{Tikz}.
+\end{itemize}
+\end{codeinfo}
+
+\begin{codeinfo}
+Concernant la clé \Cle{TikzAutonome} est plutôt une clé utilisée \textit{interne}, elle peut être utilisée pour intégrer une carte dans un environnement \TikZ{} déjà créé, pour une utilisation complètement personnalisé des cartes !
+
+\smallskip
+
+Il est à noter que la commande (en \textit{interne}) est liée à un \textit{sous}-environnement \ctex{scope}.
+\end{codeinfo}
+
+
+\begin{codetex}[]
+En mode normal, \AffCarteJeu{VP} ou \AffCarteJeu[AlignementV=0]{DosRouge} ou
+\AffCarteJeu[AlignementV=1]{10K} ou \AffCarteJeu[TypeJeu=Tarot,AlignementV=0.33,Rotation=25]{10AT}.
+
+\smallskip
+
+En mode \TikZ, \AffCarteJeu[Hauteur=2.75,Tikz]{VP}
+ou \AffCarteJeu[Hauteur=2.75,AlignementV=0,Tikz]{DosVert}
+ou \AffCarteJeu[Hauteur=2.75,AlignementV=1,Tikz]{10K}
+ou \AffCarteJeu[Hauteur=2.75,TypeJeu=Tarot,AlignementV=0.33,Rotation=-25]{10AT}.
+
+\smallskip
+
+On obtient la main \AffCarteJeu[Hauteur=2]{VP}\AffCarteJeu[Hauteur=2]{10K}
+\AffCarteJeu[Hauteur=2]{AK}\AffCarteJeu[Hauteur=2]{JN}\AffCarteJeu[Hauteur=2]{7P}.
+\end{codetex}
+
+\section{Main de cartes}
+
+\subsection{Introduction}
+
+\begin{codeidee}
+La commande précédente, relativement simple, ne fait \textit{que} placer une image dans un le document, il sera peut-être plus intéressant d'utiliser les commandes qui suivent, afin de créer des \textit{mains} de cartes, aléatoires ou non !
+\end{codeidee}
+
+\begin{codeattention}
+Les commandes pour créer des \textit{mains} sont obligatoirement liées à des environnement \ctex{tikzpicture} autonomes !
+\end{codeattention}
+
+\begin{codetex}[listing only]
+\CartesJeu[options]{<liste de cartes>}
+\end{codetex}
+
+\subsection{Clés et options}
+
+\begin{codecles}
+L'argument \textit{mandataire} correspond à la liste des cartes à afficher, sous la forme 
+
+\begin{itemize}
+	\item \texttt{<carte1> § <carte2> § ... § <carten>}.
+\end{itemize}
+
+Les \Cle{options} sont les suivantes :
+
+\begin{itemize}
+	\item la clé \Cle{Hauteur} correspond à la hauteur voulue, en cm, des cartes ; \hfill{}défaut \Cle{4.25}
+	\item la clé \Cle{TypeJeu} (parmi \Cle{Poker} ou \Cle{Tarot}) pour spécifier les cartes à utiliser ; \hfill{}défaut \Cle{Poker}
+	\item la clé \Cle{EspH} correspond à coefficient d'espacement horizontal (\textit{proche} du cm en taille réelle) entre les cartes ; \hfill{}défaut \Cle{1}
+	\item la clé \Cle{EspH} correspond à coefficient d'espacement vertical (\textit{proche} du cm en taille réelle) entre les cartes ; \hfill{}défaut \Cle{0}
+	\item le booléen \Cle{Eventail} pour une présentation en éventail ; \hfill{}défaut \Cle{false}
+	\item la clé \Cle{Rotation} pour l'angle entre les cartes en mode \Cle{Eventail}  ; \hfill{}défaut \Cle{10}
+	\item la clé \Cle{AlignementV} pour l'alignement vertical lié à \TikZ{}\hfill{}défaut \Cle{0.5}
+\end{itemize}
+\end{codecles}
+
+\begin{codetex}[]
+\CartesJeu{7K § 8P § DT § AC}
+~ou \CartesJeu[Eventail,EspH=0,EspV=0.1]{7K § 8P § DT § AC}
+~ou \CartesJeu[Eventail,EspH=0.5]{7K § 8P § DT § AC}
+\end{codetex}
+
+\begin{codeinfo}
+Pour une main \textit{horizontale}, seule la clé \Cle{EspH} est importante, et une valeur proche de 1 donne des résultats intéressants.
+
+\smallskip
+
+Pour une main \textit{éventail}, les deux espacements peuvent être modifiés, afin d'avoir un rendu satisfaisant pour l'utilisateur.
+
+\smallskip
+
+Les exemples proposés dans cette documentation permettent de se rendre compte de valeurs possibles pour un rendu satisfaisant.
+\end{codeinfo}
+
+\begin{codetex}[]
+\CartesJeu[TypeJeu=Tarot]%
+	{Exc § 1AT § CC § 8T § 2K § 5AT § 2AT § DP § 7T § 10C § 19AT § VP}
+
+\smallskip
+
+\CartesJeu[TypeJeu=Tarot,EspH=1,EspV=-0.15,Hauteur=2.25]%
+	{Exc § 1AT § CC § 8T § 2K § 5AT § 2AT § DP § 7T § 10C § 19AT § VP}
+
+\smallskip
+
+Ça c'est une belle poignée ! \CartesJeu[Eventail,Hauteur=3,TypeJeu=Tarot,EspH=0,EspV=0.1]%
+	{Exc § 1AT § 2AT § 3AT § 4AT § 5AT § 6AT § %
+	10AT § 11AT § 15AT § 16AT § 19AT § 20AT § 21AT}
+
+\smallskip
+
+Et un chien qui en a  : \CartesJeu[Eventail,Hauteur=2,TypeJeu=Tarot,EspH=0.5,EspV=0.15,Rotation=20]%
+	{DK § 10AT § 16AT § VP § 1AT}
+\end{codetex}
+
+\pagebreak
+
+\section{Mains aléatoires}
+
+\subsection{Introduction}
+
+\begin{codeidee}
+L'idée est ici de proposer une commande, similaire à la précédente, mais qui permet de \textbf{tirer au hasard} un certain nombre de cartes pour créer une main.
+\end{codeidee}
+
+\begin{codetex}[listing only]
+\CartesJeuAleatoire[<options>]{<nombre de cartes>}
+\end{codetex}
+
+\begin{codetex}[]
+Voilà de quoi d'obtenir une main aléatoire de Poker :
+
+\CartesJeuAleatoire{5}
+\end{codetex}
+
+\subsection{Clés et options}
+
+\begin{codecles}
+Les \Cle{options} sont les suivantes :
+
+\begin{itemize}
+	\item la clé \Cle{Hauteur} correspond à la hauteur voulue, en cm, des cartes ; \hfill{}défaut \Cle{4.25}
+	\item la clé \Cle{TypeJeu} (parmi \Cle{Poker} ou \Cle{Tarot} ou \Cle{Belote} ou \Cle{Bataille}) ; \hfill{}défaut \Cle{Poker}
+	\item la clé \Cle{EspH} correspond à coefficient d'espacement horizontal (\textit{proche} du cm en taille réelle) entre les cartes ; \hfill{}défaut \Cle{1}
+	\item la clé \Cle{EspH} correspond à coefficient d'espacement vertical (\textit{proche} du cm en taille réelle) entre les cartes ; \hfill{}défaut \Cle{0}
+	\item le booléen \Cle{Eventail} pour une présentation en éventail ; \hfill{}défaut \Cle{false}
+	\item la clé \Cle{Rotation} pour l'angle entre les cartes en mode \Cle{Eventail}  ; \hfill{}défaut \Cle{10}
+	\item la clé \Cle{AlignementV} pour l'alignement vertical lié à \TikZ{}\hfill{}défaut \Cle{0.5}
+\end{itemize}
+\end{codecles}
+
+\begin{codeinfo}
+En ce qui concerne les \textit{jeux} disponibles (non modifiables) :
+
+\begin{itemize}
+	\item \Cle{Poker} : 52 cartes (sans Joker) ;
+	\item \Cle{Belote} : 32 cartes (sans Joker) ;
+	\item \Cle{Bataille} : 54 cartes (avec Jokers) ;
+	\item \Cle{Tarot} : 78 cartes.
+\end{itemize}
+\end{codeinfo}
+
+\pagebreak
+
+\begin{codetex}[]
+\textbf{\large Belote :} \\
+
+\CartesJeuAleatoire[Hauteur=2,TypeJeu=Belote]{8} ou \CartesJeuAleatoire[Hauteur=2,TypeJeu=Belote]{8}.\\
+
+\textbf{\large Poker :} \\
+
+\CartesJeuAleatoire[Hauteur=3,Eventail,EspH=0,EspV=0.1]{5} ou  \CartesJeuAleatoire[Hauteur=3,Eventail,EspH=0,EspV=0.1]{5}.\\
+
+\textbf{\large Bataille :} \\
+
+\CartesJeuAleatoire[Hauteur=2.25,TypeJeu=Bataille]{27}\\
+
+\textbf{\large Tarot :} \\
+
+\CartesJeuAleatoire[Hauteur=3.25,TypeJeu=Tarot]{10} ou~
+\CartesJeuAleatoire[Hauteur=3.25,Eventail,TypeJeu=Tarot,EspH=0,EspV=0.1]{10}
+\end{codetex}
+
+\pagebreak
+
+\section{\textit{Mini}-Cartes}
+
+\subsection{Introduction}
+
+\begin{codeidee}
+L'idée est ici de proposer des commandes pour afficher des \textit{mini-}cartes, utilisables en mode ligne, sans utiliser les images précédentes.
+
+\smallskip
+
+Ces \textit{mini-}cartes sont des figures \TikZ, alignées verticalement sur leur \textit{baseline}.
+\end{codeidee}
+
+\begin{codetex}[listing only]
+\MiniCarteJeu[<options>]{<carte>}
+\end{codetex}
+
+\begin{codetex}[]
+Si on met du texte sur la ligne du dessus, on peut voir le résultat.\\
+Voilà des exemples de mini-cartes, \MiniCarteJeu{7.K}\MiniCarteJeu{1.AT}\MiniCarteJeu{V.K}\MiniCarteJeu{10.C}, intégrables dans un paragraphe.\\
+Si on met du texte sur la ligne du dessous, on peut voir le résultat.
+\end{codetex}
+
+\subsection{Noms des \textit{mini-}cartes}
+
+\begin{codeinfo}
+Pour des raisons internes au code, les cartes doivent être saisies suivant la nomenclature (noter l'utilisation du \ctex{.} pour séparer la hauteur de la couleur !)  :
+
+\begin{itemize}
+	\item \texttt{2.C}, \texttt{3.C}, \ldots, \texttt{C.C}, \texttt{D.C}, \texttt{R.C}, \texttt{A.C}\dotfill\Cle{Cœur}
+	\item \texttt{2.P}, \texttt{3.P}, \ldots, \texttt{C.P}, \texttt{D.P}, \texttt{R.P}, \texttt{A.P}\dotfill\Cle{Pique}
+	\item \texttt{2.K}, \texttt{3.K}, \ldots, \texttt{C.K}, \texttt{D.K}, \texttt{R.K}, \texttt{A.K}\dotfill\Cle{Carreau}
+	\item \texttt{2.T}, \texttt{3.T}, \ldots, \texttt{K.T}, \texttt{D.T}, \texttt{R.T}, \texttt{A.T}\dotfill\Cle{Trèfle}
+	\item \texttt{J.N}, \texttt{J.R}\dotfill\Cle{Joker}
+	\item \texttt{Exc}, \texttt{1.AT}, \texttt{2.AT}, \ldots, \texttt{20.T}, \texttt{21.AT}\dotfill\Cle{Atouts}
+\end{itemize}
+\end{codeinfo}
+
+\begin{codeinfo}
+Les \textit{mini-}cartes d'atout pour le Tarot sont présentées avec un fond coloré, et avec un symbole en étoile.
+\end{codeinfo}
+
+\subsection{Clés et options}
+
+\begin{codecles}
+Quelques \Cle{options} pour les \textit{mini-}cartes :
+
+\begin{itemize}
+	\item la clé \Cle{Largeur} pour gérer la largeur des miniatures ; \hfill{}défaut \Cle{0.55cm}
+	\item la clé \Cle{FondAtout} pour gérer la couleur de fond pour les atouts. \hfill{}défaut \Cle{PeachPuff}
+\end{itemize}
+\end{codecles}
+
+\begin{codetex}[]
+\foreach \EECARTE in {2,3,4,5,6,7,8,9,10,V,C,D,R,A}{\MiniCarteJeu[Largeur=0.75cm]{\EECARTE.K}}\\
+\MiniCarteJeu[FondAtout=LightSkyBlue,Largeur=0.75cm]{Exc}%
+\foreach \EECARTE in {1,2,...,21}{\MiniCarteJeu[FondAtout=LightSkyBlue,Largeur=0.75cm]{\EECARTE.AT}}
+\end{codetex}
+
+\subsection{\textit{Mini}-Mains et \textit{mini}-mains aléatoires}
+
+\begin{codeidee}
+Comme pour les cartes \textit{classiques}, il existe deux commandes pour des \textit{mains} de \textit{mini-}cartes, mais uniquement en présentation horizontale/côte-à-côte.
+\end{codeidee}
+
+\begin{codetex}[listing only]
+\MiniCartesJeu[<options>]{<liste de cartes>}
+
+\MiniCartesJeuAleatoire[<options>]{<liste de cartes>}
+\end{codetex}
+
+\begin{codecles}
+Les \Cle{Clés} sont les mêmes que pour la commande individuelle, avec en plus :
+
+\begin{itemize}
+	\item la clé \Cle{TypeJeu} (parmi \Cle{Poker} ou \Cle{Tarot} ou \Cle{Belote} ou \Cle{Bataille}). \hfill{}défaut \Cle{Poker}
+\end{itemize}
+\end{codecles}
+
+\begin{codetex}[]
+\textbf{\large Saisie de mains : }\\
+\MiniCartesJeu{7.K § A.P § D.T § V.K § 10.C § C.T} et~
+\MiniCartesJeu{Exc § 1.AT § C.C § 8.T § 2.K § 5.AT § 2.AT § D.P § 7.T § 10.C § 19.AT § V.P}\\
+
+\textbf{\large Poker : }\\
+\MiniCartesJeuAleatoire{5} ou \MiniCartesJeuAleatoire{5} ou \MiniCartesJeuAleatoire{5} ou \MiniCartesJeuAleatoire{5}.\\
+
+\textbf{\large Belote :}\\
+\MiniCartesJeuAleatoire[TypeJeu=Belote]{8} ou \MiniCartesJeuAleatoire[TypeJeu=Belote]{8} ou \MiniCartesJeuAleatoire[TypeJeu=Belote]{8}.\\
+
+\textbf{\large Bataille : }\\
+\MiniCartesJeuAleatoire[TypeJeu=Bataille]{12} ou \MiniCartesJeuAleatoire[TypeJeu=Bataille]{12}.\\
+
+\textbf{\large Tarot : }\\
+\MiniCartesJeuAleatoire[TypeJeu=Tarot]{10} ou \MiniCartesJeuAleatoire[TypeJeu=Tarot]{10}.
+\end{codetex}
+
+\pagebreak
+
+\part{Compléments}
+
+\section{Cartes disponibles}
+
+\subsection{Poker/Bataille/Belote}
+
+\xintFor #1 in {2,3,4,5,6,7,8,9,10,V,D,R,A}\do{\AffCarteJeu[Hauteur=1.75]{#1P}}
+
+\xintFor #1 in {2,3,4,5,6,7,8,9,10,V,D,R,A}\do{\AffCarteJeu[Hauteur=1.75]{#1C}}
+
+\xintFor #1 in {2,3,4,5,6,7,8,9,10,V,D,R,A}\do{\AffCarteJeu[Hauteur=1.75]{#1K}}
+
+\xintFor #1 in {2,3,4,5,6,7,8,9,10,V,D,R,A}\do{\AffCarteJeu[Hauteur=1.75]{#1T}}
+
+\AffCarteJeu[Hauteur=1.75]{JN}\AffCarteJeu[Hauteur=1.75]{JR}%
+\xintFor #1 in {Bleu,BleuVert,Fuchsia,Gris,Jaune,Marron,Navy,Noir,Olive,Vert,Violet}\do{\AffCarteJeu[Hauteur=1.75]{Dos#1}}
+
+\subsection{Cartes Tarot}
+
+\xintFor #1 in {2,3,4,5,6,7,8,9,10,V,C,D,R,A}\do{\AffCarteJeu[TypeJeu=Tarot,Hauteur=1.75]{#1P}}
+
+\xintFor #1 in {2,3,4,5,6,7,8,9,10,V,C,D,R,A}\do{\AffCarteJeu[TypeJeu=Tarot,Hauteur=1.75]{#1C}}
+
+\xintFor #1 in {2,3,4,5,6,7,8,9,10,V,C,D,R,A}\do{\AffCarteJeu[TypeJeu=Tarot,Hauteur=1.75]{#1K}}
+
+\xintFor #1 in {2,3,4,5,6,7,8,9,10,V,C,D,R,A}\do{\AffCarteJeu[TypeJeu=Tarot,Hauteur=1.75]{#1T}}
+
+\AffCarteJeu[TypeJeu=Tarot,Hauteur=1.75]{Exc}%
+\xintFor #1 in {1,2,3,4,5,6,7,8,9,10}\do{\AffCarteJeu[TypeJeu=Tarot,Hauteur=1.75]{#1AT}}%
+\AffCarteJeu[TypeJeu=Tarot,Hauteur=1.75]{Dos}
+
+\xintFor #1 in {11,12,13,14,15,16,17,18,19,20,21}\do{\AffCarteJeu[TypeJeu=Tarot,Hauteur=1.75]{#1AT}}%
+\AffCarteJeu[TypeJeu=Tarot,Hauteur=1.75]{Dos}
+
+\pagebreak
+
+\subsection{MiniCartes}
+
+\xintFor #1 in {2,3,4,5,6,7,8,9,10,V,C,D,R,A}\do{\MiniCarteJeu{#1.P}}
+
+\xintFor #1 in {2,3,4,5,6,7,8,9,10,V,C,D,R,A}\do{\MiniCarteJeu{#1.C}}
+
+\xintFor #1 in {2,3,4,5,6,7,8,9,10,V,C,D,R,A}\do{\MiniCarteJeu{#1.K}}
+
+\xintFor #1 in {2,3,4,5,6,7,8,9,10,V,C,D,R,A}\do{\MiniCarteJeu{#1.T}}
+
+\MiniCarteJeu{J.N}\MiniCarteJeu{J.R}
+
+\medskip
+
+\MiniCarteJeu{Exc}%
+\xintFor #1 in {1,2,3,4,5,6,7,8,9,10}\do{\MiniCarteJeu{#1.AT}}
+
+\xintFor #1 in {11,12,13,14,15,16,17,18,19,20,21}\do{\MiniCarteJeu{#1.AT}}%
+
+\section{Carte simple dans un environnement \TikZ}
+
+\begin{codeidee}
+La commande simple, avec l'option \Cle{TikzAutonome=false} permet à l'utilisateur de gérer les cartes dans un environnement \ctex{tikzpicture} \textit{indépendant}.
+
+\smallskip
+
+L'\textit{origine} des cartes est fixée, au coin bas-gauche, et la \Cle{Rotation} éventuelle est appliquée après la translation gérée par les \Cle{DecalageXY}.
+\end{codeidee}
+
+\begin{codetex}[]
+\begin{tikzpicture}
+	\draw[thin,lightgray] (-5,-5) grid (5,3) ; %grille rajoutée pour la lisibilité du code
+	\foreach \ptsupport in {(0,0),(3,-4),(-3,-1),(-2,-3.5),(2,2.75)}%
+		{\filldraw[Gray] \ptsupport circle[radius=2pt] ;}  %poits rajouté pour la lisibilité du code
+	\foreach \x in {-5,-4,...,5} \draw[lightgray] (\x,-5) node[below,font=\small] {\x} ;
+	\foreach \y in {-5,-4,...,3} \draw[lightgray] (-5,\y) node[left,font=\small] {\y} ;
+	\AffCarteJeu[Hauteur=2,Tikz=true,TikzAutonome=false]%
+		{10C}
+	\AffCarteJeu[Hauteur=2.5,Tikz=true,TikzAutonome=false,DecalageX=3,DecalageY=-4]%
+		{JN}
+	\AffCarteJeu[Hauteur=3,Tikz=true,TikzAutonome=false,DecalageX=-3,DecalageY=-1,Rotation=20]%
+		{JR}
+	\AffCarteJeu[Hauteur=1.75,Tikz=true,TikzAutonome=false,DecalageX=-2,DecalageY=-3.5,Rotation=-50]%
+		{DosBleu}
+	\AffCarteJeu%
+		[TypeJeu=Tarot,Hauteur=2.75,Tikz=true,TikzAutonome=false,DecalageX=2,DecalageY=2.75,Rotation=-90]%
+		{18AT}
+\end{tikzpicture}
+\end{codetex}
+
+\end{document}
