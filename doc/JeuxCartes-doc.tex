@@ -52,8 +52,8 @@
 \setlength{\parindent}{0pt}
 \definecolor{LightGray}{gray}{0.9}
 
-\def\TPversion{0.1.2}
-\def\TPdate{26 Octobre 2022}
+\def\TPversion{0.1.3}
+\def\TPdate{28 Octobre 2022}
 
 \usepackage[most]{tcolorbox}
 \usepackage[outputdir=build]{minted}
@@ -102,8 +102,8 @@
 			\begin{tabular}{c}
 				\lstinline!JeuxCartes!\\
 				\\
-				Des cartes de poker ou de tarot, \\
-				simples ou en \textit{mains}, \\
+				Des cartes de Poker ou de Tarot ou de Uno, \\
+				simples ou en \textit{mains} ou en \textit{mini}, \\
 				avec possibilité de tirage aléatoire.
 			\end{tabular}
 		\end{center}
@@ -128,7 +128,7 @@
 
 \thispagestyle{empty}
 
-{\Large {\bfseries Résumé} : Quelques commandes pour afficher des cartes à jouer, de type Poker ou Tarot}
+{\Large $\blacktriangleright$~~Quelques commandes pour afficher des cartes à jouer, de type Poker/Tarot/Uno}
 
 \medskip
 
@@ -143,7 +143,7 @@ Une commande pour des cartes en version \og miniatures \fg{} (individuelle, main
 \vspace{0.5cm}
 
 \begin{center}
-	\CartesJeu[Eventail,EspH=0,EspV=0.1]{7K § 8P § DT § AP § 10C § AC § 8T § 2K § VC}\hspace{0.5cm}\CartesJeu[TypeJeu=Tarot,EspH=0.85,EspV=0.2]{Exc § 1AT § CC § 8T § 2K § 5AT § 2AT § DP § 7T § 10C § 19AT § VP}
+	\MainCartesJeu[Eventail,EspH=0,EspV=0.1]{7K § 8P § DT § AP § 10C § AC § 8T § 2K § VC}\hspace{0.5cm}\MainCartesJeu[TypeJeu=Tarot,EspH=0.85,EspV=0.2]{Exc § 1AT § CC § 8T § 2K § 5AT § 2AT § DP § 7T § 10C § 19AT § VP}
 \end{center}
 
 \hfill{}\textit{Merci aux membres du groupe \faFacebook{} du \og Coin \LaTeX{} \fg{} pour leur aide et leurs idées !}
@@ -181,6 +181,11 @@ Une commande pour des cartes en version \og miniatures \fg{} (individuelle, main
 \vfill~
 
 \part{Historique}
+
+{\small \bverb|v0.1.3|~:~~~~Ajout de cartes Uno (CC1.0 par AlexDer) + modification des commandes + rami
+
+{\small \bverb|      |~:~~~~Amélioration de la qualité des cartes de Tarot (sans augmenter la taille)
+	
 {\small \bverb|v0.1.2|~:~~~~Modification du nom (et de la source) des images de Tarot (CC0)
 
 {\small \bverb|v0.1.1|~:~~~~Ajout de commandes pour des mini-cartes
@@ -204,7 +209,8 @@ Les cartes sont des images :
 %
 \begin{itemize}
 	\item les cartes type \textsf{Poker} sont sous licence LGPL, \copyright{}2005, de David Bellot, via \url{https://github.com/htdebeer/SVG-cards} ;
-	\item les cartes type \textsf{Tarot} sous licence CC0, du site \url{https://freesvg.org}.
+	\item les cartes type \textsf{Tarot} sous licence CC0, du site \url{https://freesvg.org} ;
+	\item les cartes type \textsf{Uno} (édité par Mattel\texttrademark) sous licence CC0, du site \url{https://alexder.itch.io/uno-card-game-asset-pack}.
 \end{itemize}
 \end{codeidee}
 
@@ -278,21 +284,60 @@ Autant que faire se peut, des exemples/illustrations/remarques seront proposés 
 Les \textsf{codes} seront présentés dans des \textsf{boîtes} \textcolor{red!75!black}{{\small \faCode} Code \LaTeX}, si possible avec la \textsf{sortie} dans la même boîte, et sinon la \textsf{sortie} sera visible dans des \textsf{boîtes} \textcolor{red!75!black}{{\small \faArrowAltCircleRight[regular]} Sortie \LaTeX}. Les \textsf{clés} ou \textsf{options} seront présentées dans des \textsf{boîtes} \textcolor{ForestGreen}{{\small \faPaperclip} Clés}.
 \end{codeinfo}
 
+\subsection{Liste des commandes et jeux disponibles}
+
+\begin{codeinfo}
+Les \textit{Jeux} disponibles sont :
+
+\begin{itemize}
+	\item \Cle{Poker}, \Cle{Tarot} et \Cle{Uno} pour l'affichage des cartes ;
+	\item \Cle{Poker}, \Cle{Tarot}, \Cle{Bataille}, \Cle{Rami}, \Cle{Belote} et \Cle{Uno} pour les mains aléatoires.
+\end{itemize}
+\end{codeinfo}
+
+\begin{codetex}[listing only]
+%Affichage d'une seule carte (mode image pure ou mode tikz)
+\AffCarteJeu[...]{...}
+
+%Affichage en mode côte à côte de plusieurs cartes
+\AffCartesJeu[...]{...}
+
+%Affichage en main de plusieurs cartes (éventail possible)
+\MainCartesJeu[...]{...}
+
+%Affichage en main de cartes aléatoires (éventail possible)
+\MainCartesJeuAleatoire[...]{...}
+
+%affichage d'une mini-carte (mode 'inline')
+\AffMiniCarteJeu[...]{...}
+
+%affichage d'une main de mini-cartes (mode 'inline')
+\MainMiniCartesJeu[...]{...}
+
+%affichage d'une main de mini-cartes aléatoires (mode 'inline')
+\MainMiniCartesJeuAleatoire[...]{...}
+\end{codetex}
+
+\pagebreak
+
 \part{Les commandes}
 
-\section{La commande simple \og CarteJeu \fg}
+\section{Les commandes simples \og AffCarteJeu \fg{} et \og AffCartesJeu \fg}
 
 \subsection{Introduction}
 
 \begin{codeinfo}
-La commande \ctex{AffCarteJeu} affiche une carte, avec un système de clés/options
+La commande \ctex{AffCarteJeu} affiche une carte, avec un système de clés/options.
+
+La commande \ctex{AffCartesJeu} affiche une liste de cartes ne mode \textit{côte à côte}, avec un système de clés/options.
 \end{codeinfo}
 
 \begin{codetex}[]
 \AffCarteJeu{VP}\AffCarteJeu{10K}\AffCarteJeu{AC}\AffCarteJeu{DosBleu}\AffCarteJeu{DT}\\ \\
 \AffCarteJeu[TypeJeu=Tarot]{VP}\AffCarteJeu[TypeJeu=Tarot]{Dos}
 \AffCarteJeu[TypeJeu=Tarot]{Exc}\AffCarteJeu[TypeJeu=Tarot]{1AT}
-\AffCarteJeu[TypeJeu=Tarot]{10K}\AffCarteJeu[TypeJeu=Tarot]{18AT}
+\AffCarteJeu[TypeJeu=Tarot]{10K}\AffCarteJeu[TypeJeu=Tarot]{18AT}\\ \\
+\AffCartesJeu[TypeJeu=Uno]{P4 § PTR § Coul § 7B § 8V}
 \end{codetex}
 
 \subsection{Noms de cartes}
@@ -320,6 +365,19 @@ est fixé suivant le modèle suivant (typiquement \texttt{<hauteur>.<couleur>} )
 		\item \texttt{Exc}, \texttt{1AT}, \texttt{2AT}, \ldots, \texttt{20T}, \texttt{21AT}\dotfill\Cle{Atouts}
 		\item \texttt{Dos}\dotfill\Cle{Dos}
 	\end{itemize}
+	\item cartes de Uno  :
+	\begin{itemize}
+		\item \texttt{0B}, \texttt{1B}, \ldots, \texttt{8B}, \texttt{9B}\dotfill\Cle{Bleu}
+		\item \texttt{0R}, \texttt{1R}, \ldots, \texttt{8R}, \texttt{9R}\dotfill\Cle{Rouge}
+		\item \texttt{0J}, \texttt{1J}, \ldots, \texttt{8J}, \texttt{9J}\dotfill\Cle{Jaune}
+		\item \texttt{0V}, \texttt{1V}, \ldots, \texttt{8V}, \texttt{9V}\dotfill\Cle{Vert}
+		\item \texttt{P2B}, \texttt{P2R}, \texttt{P2B}, \texttt{P2J}, \texttt{P2V}\dotfill\Cle{+2}
+		\item \texttt{PTB}, \texttt{PTR}, \texttt{PTB}, \texttt{PTJ}, \texttt{PTV}\dotfill\Cle{PasseTour}
+		\item \texttt{CSB}, \texttt{CSR}, \texttt{CSB}, \texttt{CSJ}, \texttt{CSV}\dotfill\Cle{ChangeSens}
+		\item \texttt{P4}\dotfill\Cle{+4}
+		\item \texttt{Coul}\dotfill\Cle{JokerCouleur}
+		\item \texttt{Dos}\dotfill\Cle{Dos}
+	\end{itemize}
 \end{itemize}
 \end{codeinfo}
 
@@ -327,6 +385,7 @@ est fixé suivant le modèle suivant (typiquement \texttt{<hauteur>.<couleur>} )
 
 \begin{codetex}[listing only]
 \AffCarteJeu[options]{<carte>}
+\AffCartesJeu[options]{<liste de cartes>}
 \end{codetex}
 
 \begin{codecles}
@@ -334,7 +393,7 @@ Concernant les \Cle{options} :
 
 \begin{itemize}
 	\item la clé \Cle{Hauteur} correspond à la hauteur voulue, en cm, de la carte ; \hfill{}défaut \Cle{4.25}
-	\item la clé \Cle{TypeJeu} (parmi \Cle{Poker} ou \Cle{Tarot}) pour spécifier les cartes à utiliser ; \hfill{}défaut \Cle{Poker}
+	\item la clé \Cle{TypeJeu} (parmi \Cle{Poker} ou \Cle{Tarot} ou \Cle{Uno}) pour spécifier les cartes à utiliser ; \hfill{}défaut \Cle{Poker}
 	\item la clé \Cle{Rotation} pour une éventuelle rotation de la carte ; \hfill{}défaut \Cle{0}
 	\item la clé \Cle{AlignementV} pour l'alignement vertical (lié à \ctex{raisebox} ou à \TikZ) ; \hfill{}défaut \Cle{0.5}
 	\item le booléen \Cle{Tikz} pour préciser que la carte est \textit{autonome}, dans un environnement \ctex{tikzpicture} ; \hfill{}défaut \Cle{false}
@@ -364,19 +423,12 @@ Il est à noter que la commande (en \textit{interne}) est liée à un \textit{so
 
 \begin{codetex}[]
 En mode normal, \AffCarteJeu{VP} ou \AffCarteJeu[AlignementV=0]{DosRouge} ou
-\AffCarteJeu[AlignementV=1]{10K} ou \AffCarteJeu[TypeJeu=Tarot,AlignementV=0.33,Rotation=25]{10AT}.
-
-\smallskip
-
-En mode \TikZ, \AffCarteJeu[Hauteur=2.75,Tikz]{VP}
-ou \AffCarteJeu[Hauteur=2.75,AlignementV=0,Tikz]{DosVert}
-ou \AffCarteJeu[Hauteur=2.75,AlignementV=1,Tikz]{10K}
-ou \AffCarteJeu[Hauteur=2.75,TypeJeu=Tarot,AlignementV=0.33,Rotation=-25]{10AT}.
-
-\smallskip
-
-On obtient la main \AffCarteJeu[Hauteur=2]{VP}\AffCarteJeu[Hauteur=2]{10K}
-\AffCarteJeu[Hauteur=2]{AK}\AffCarteJeu[Hauteur=2]{JN}\AffCarteJeu[Hauteur=2]{7P}.
+\AffCarteJeu[AlignementV=1]{10K} ou \AffCarteJeu[TypeJeu=Tarot,AlignementV=0.33,Rotation=25]{10AT}.\\ \\
+En mode \TikZ, \AffCarteJeu[Hauteur=2,Tikz]{VP}
+ou \AffCarteJeu[Hauteur=2,AlignementV=0,Tikz]{DosVert}
+ou \AffCarteJeu[Hauteur=2,AlignementV=1,Tikz]{10K}
+ou \AffCarteJeu[Hauteur=2,TypeJeu=Tarot,AlignementV=0.33,Rotation=-25]{10AT}.\\ \\
+On obtient la main \AffCartesJeu[Hauteur=2,TypeJeu=Uno]{9B § 8R § P2J § P4 § 0J § CSR § PTJ}.
 \end{codetex}
 
 \section{Main de cartes}
@@ -392,7 +444,7 @@ Les commandes pour créer des \textit{mains} sont obligatoirement liées à des 
 \end{codeattention}
 
 \begin{codetex}[listing only]
-\CartesJeu[options]{<liste de cartes>}
+\MainCartesJeu[options]{<liste de cartes>}
 \end{codetex}
 
 \subsection{Clés et options}
@@ -408,7 +460,7 @@ Les \Cle{options} sont les suivantes :
 
 \begin{itemize}
 	\item la clé \Cle{Hauteur} correspond à la hauteur voulue, en cm, des cartes ; \hfill{}défaut \Cle{4.25}
-	\item la clé \Cle{TypeJeu} (parmi \Cle{Poker} ou \Cle{Tarot}) pour spécifier les cartes à utiliser ; \hfill{}défaut \Cle{Poker}
+	\item la clé \Cle{TypeJeu} (parmi \Cle{Poker} ou \Cle{Tarot} ou \Cle{Uno}) pour spécifier les cartes à utiliser ; \hfill{}défaut \Cle{Poker}
 	\item la clé \Cle{EspH} correspond à coefficient d'espacement horizontal (\textit{proche} du cm en taille réelle) entre les cartes ; \hfill{}défaut \Cle{1}
 	\item la clé \Cle{EspH} correspond à coefficient d'espacement vertical (\textit{proche} du cm en taille réelle) entre les cartes ; \hfill{}défaut \Cle{0}
 	\item le booléen \Cle{Eventail} pour une présentation en éventail ; \hfill{}défaut \Cle{false}
@@ -418,9 +470,9 @@ Les \Cle{options} sont les suivantes :
 \end{codecles}
 
 \begin{codetex}[]
-\CartesJeu{7K § 8P § DT § AC}
-~ou \CartesJeu[Eventail,EspH=0,EspV=0.1]{7K § 8P § DT § AC}
-~ou \CartesJeu[Eventail,EspH=0.5]{7K § 8P § DT § AC}
+\MainCartesJeu{7K § 8P § DT § AC}
+~ou \MainCartesJeu[Eventail,EspH=0,EspV=0.1]{7K § 8P § DT § AC}
+~ou \MainCartesJeu[Eventail,EspH=0.5]{7K § 8P § DT § AC}
 \end{codetex}
 
 \begin{codeinfo}
@@ -436,23 +488,23 @@ Les exemples proposés dans cette documentation permettent de se rendre compte d
 \end{codeinfo}
 
 \begin{codetex}[]
-\CartesJeu[TypeJeu=Tarot]%
+\MainCartesJeu[TypeJeu=Uno,EspH=1.75]%
+	{9B § P4 § P2J § 1R § 7R § PTV § 2J § 5J § 9B § PTR § 5V}
+
+\smallskip
+
+\MainCartesJeu[TypeJeu=Tarot,EspH=1,EspV=-0.15,Hauteur=2.25]%
 	{Exc § 1AT § CC § 8T § 2K § 5AT § 2AT § DP § 7T § 10C § 19AT § VP}
 
 \smallskip
 
-\CartesJeu[TypeJeu=Tarot,EspH=1,EspV=-0.15,Hauteur=2.25]%
-	{Exc § 1AT § CC § 8T § 2K § 5AT § 2AT § DP § 7T § 10C § 19AT § VP}
-
-\smallskip
-
-Ça c'est une belle poignée ! \CartesJeu[Eventail,Hauteur=3,TypeJeu=Tarot,EspH=0,EspV=0.1]%
+Ça c'est une belle poignée ! \MainCartesJeu[Eventail,Hauteur=3,TypeJeu=Tarot,EspH=0,EspV=0.1]%
 	{Exc § 1AT § 2AT § 3AT § 4AT § 5AT § 6AT § %
 	10AT § 11AT § 15AT § 16AT § 19AT § 20AT § 21AT}
 
 \smallskip
 
-Et un chien qui en a  : \CartesJeu[Eventail,Hauteur=2,TypeJeu=Tarot,EspH=0.5,EspV=0.15,Rotation=20]%
+Et un chien qui en a  : \MainCartesJeu[Eventail,Hauteur=2,TypeJeu=Tarot,EspH=0.5,EspV=0.15,Rotation=20]%
 	{DK § 10AT § 16AT § VP § 1AT}
 \end{codetex}
 
@@ -467,13 +519,13 @@ L'idée est ici de proposer une commande, similaire à la précédente, mais qui
 \end{codeidee}
 
 \begin{codetex}[listing only]
-\CartesJeuAleatoire[<options>]{<nombre de cartes>}
+\MainCartesJeuAleatoire[<options>]{<nombre de cartes>}
 \end{codetex}
 
 \begin{codetex}[]
-Voilà de quoi d'obtenir une main aléatoire de Poker :
+Voilà de quoi obtenir une main aléatoire de Poker :
 
-\CartesJeuAleatoire{5}
+\MainCartesJeuAleatoire{5}
 \end{codetex}
 
 \subsection{Clés et options}
@@ -483,7 +535,7 @@ Les \Cle{options} sont les suivantes :
 
 \begin{itemize}
 	\item la clé \Cle{Hauteur} correspond à la hauteur voulue, en cm, des cartes ; \hfill{}défaut \Cle{4.25}
-	\item la clé \Cle{TypeJeu} (parmi \Cle{Poker} ou \Cle{Tarot} ou \Cle{Belote} ou \Cle{Bataille}) ; \hfill{}défaut \Cle{Poker}
+	\item la clé \Cle{TypeJeu} (parmi \Cle{Poker} ou \Cle{Tarot} ou \Cle{Belote} ou \Cle{Bataille} ou \Cle{Rami} ou \Cle{Uno}) ; \hfill{}défaut \Cle{Poker}
 	\item la clé \Cle{EspH} correspond à coefficient d'espacement horizontal (\textit{proche} du cm en taille réelle) entre les cartes ; \hfill{}défaut \Cle{1}
 	\item la clé \Cle{EspH} correspond à coefficient d'espacement vertical (\textit{proche} du cm en taille réelle) entre les cartes ; \hfill{}défaut \Cle{0}
 	\item le booléen \Cle{Eventail} pour une présentation en éventail ; \hfill{}défaut \Cle{false}
@@ -507,24 +559,22 @@ En ce qui concerne les \textit{jeux} disponibles (non modifiables) :
 
 \begin{codetex}[]
 \textbf{\large Belote :} \\
-
-\CartesJeuAleatoire[Hauteur=2,TypeJeu=Belote]{8} ou \CartesJeuAleatoire[Hauteur=2,TypeJeu=Belote]{8}.\\
-
+\MainCartesJeuAleatoire[Hauteur=2.5,TypeJeu=Belote]{8} ou \MainCartesJeuAleatoire[Hauteur=2,TypeJeu=Belote]{8}.\\
 \textbf{\large Poker :} \\
-
-\CartesJeuAleatoire[Hauteur=3,Eventail,EspH=0,EspV=0.1]{5} ou  \CartesJeuAleatoire[Hauteur=3,Eventail,EspH=0,EspV=0.1]{5}.\\
-
+\MainCartesJeuAleatoire[Hauteur=2.5,Eventail,EspH=0,EspV=0.1]{5} ou  \MainCartesJeuAleatoire[Hauteur=2.5,Eventail,EspH=0,EspV=0.1]{5}.\\
 \textbf{\large Bataille :} \\
-
-\CartesJeuAleatoire[Hauteur=2.25,TypeJeu=Bataille]{27}\\
-
+\MainCartesJeuAleatoire[Hauteur=2.5,TypeJeu=Bataille]{27}\\
 \textbf{\large Tarot :} \\
-
-\CartesJeuAleatoire[Hauteur=3.25,TypeJeu=Tarot]{10} ou~
-\CartesJeuAleatoire[Hauteur=3.25,Eventail,TypeJeu=Tarot,EspH=0,EspV=0.1]{10}
+\MainCartesJeuAleatoire[Hauteur=3.25,TypeJeu=Tarot]{10} ou~
+\MainCartesJeuAleatoire[Hauteur=3.25,Eventail,TypeJeu=Tarot,EspH=0,EspV=0.1]{10}.
 \end{codetex}
 
-\pagebreak
+\begin{codetex}[]
+\textbf{\large Rami :} \\
+\MainCartesJeuAleatoire[Hauteur=3.75,TypeJeu=Rami]{15}\\
+\textbf{\large Uno :} \\
+\MainCartesJeuAleatoire[Hauteur=4,TypeJeu=Uno,Eventail,EspH=-0.1,Rotation=15,EspV=0.1]{7}
+\end{codetex}
 
 \section{\textit{Mini}-Cartes}
 
@@ -539,13 +589,13 @@ Ces \textit{mini-}cartes sont des figures \TikZ, alignées verticalement sur leu
 \end{codeidee}
 
 \begin{codetex}[listing only]
-\MiniCarteJeu[<options>]{<carte>}
+\AffMiniCarteJeu[<options>]{<carte>}
 \end{codetex}
 
 \begin{codetex}[]
 Si on met du texte sur la ligne du dessus, on peut voir le résultat.\\
-Voilà des exemples de mini-cartes, \MiniCarteJeu{7.K}\MiniCarteJeu{1.AT}\MiniCarteJeu{V.K}\MiniCarteJeu{10.C}, intégrables dans un paragraphe.\\
-Si on met du texte sur la ligne du dessous, on peut voir le résultat.
+Voilà des exemples de mini-cartes, \AffMiniCarteJeu{7.K}\AffMiniCarteJeu{1.AT}\AffMiniCarteJeu{V.K}\AffMiniCarteJeu{10.C}, intégrables dans un paragraphe.\\
+Si on met du texte sur la ligne du dessous, on peut voir le résultat.\\
 \end{codetex}
 
 \subsection{Noms des \textit{mini-}cartes}
@@ -561,6 +611,8 @@ Pour des raisons internes au code, les cartes doivent être saisies suivant la n
 	\item \texttt{J.N}, \texttt{J.R}\dotfill\Cle{Joker}
 	\item \texttt{Exc}, \texttt{1.AT}, \texttt{2.AT}, \ldots, \texttt{20.T}, \texttt{21.AT}\dotfill\Cle{Atouts}
 \end{itemize}
+
+Par contre, il n'est pas prévu de \textit{mini-}cartes pour le Uno.
 \end{codeinfo}
 
 \begin{codeinfo}
@@ -579,9 +631,9 @@ Quelques \Cle{options} pour les \textit{mini-}cartes :
 \end{codecles}
 
 \begin{codetex}[]
-\foreach \EECARTE in {2,3,4,5,6,7,8,9,10,V,C,D,R,A}{\MiniCarteJeu[Largeur=0.75cm]{\EECARTE.K}}\\
-\MiniCarteJeu[FondAtout=LightSkyBlue,Largeur=0.75cm]{Exc}%
-\foreach \EECARTE in {1,2,...,21}{\MiniCarteJeu[FondAtout=LightSkyBlue,Largeur=0.75cm]{\EECARTE.AT}}
+\foreach \EECARTE in {2,3,4,5,6,7,8,9,10,V,C,D,R,A}{\AffMiniCarteJeu[Largeur=0.75cm]{\EECARTE.K}}\\
+\AffMiniCarteJeu[FondAtout=LightSkyBlue,Largeur=0.75cm]{Exc}%
+\foreach \EECARTE in {1,2,...,21}{\AffMiniCarteJeu[FondAtout=LightSkyBlue,Largeur=0.75cm]{\EECARTE.AT}}
 \end{codetex}
 
 \subsection{\textit{Mini}-Mains et \textit{mini}-mains aléatoires}
@@ -591,35 +643,38 @@ Comme pour les cartes \textit{classiques}, il existe deux commandes pour des \te
 \end{codeidee}
 
 \begin{codetex}[listing only]
-\MiniCartesJeu[<options>]{<liste de cartes>}
+\MainMiniCartesJeu[<options>]{<liste de cartes>}
 
-\MiniCartesJeuAleatoire[<options>]{<liste de cartes>}
+\MainMiniCartesJeuAleatoire[<options>]{<nb cartes>}
 \end{codetex}
 
 \begin{codecles}
 Les \Cle{Clés} sont les mêmes que pour la commande individuelle, avec en plus :
 
 \begin{itemize}
-	\item la clé \Cle{TypeJeu} (parmi \Cle{Poker} ou \Cle{Tarot} ou \Cle{Belote} ou \Cle{Bataille}). \hfill{}défaut \Cle{Poker}
+	\item la clé \Cle{TypeJeu} (parmi \Cle{Poker} ou \Cle{Tarot} ou \Cle{Belote} ou \Cle{Bataille} ou \Cle{Rami}). \hfill{}défaut \Cle{Poker}
 \end{itemize}
 \end{codecles}
 
 \begin{codetex}[]
 \textbf{\large Saisie de mains : }\\
-\MiniCartesJeu{7.K § A.P § D.T § V.K § 10.C § C.T} et~
-\MiniCartesJeu{Exc § 1.AT § C.C § 8.T § 2.K § 5.AT § 2.AT § D.P § 7.T § 10.C § 19.AT § V.P}\\
+\MainMiniCartesJeu{7.K § A.P § D.T § V.K § 10.C § C.T} et~
+\MainMiniCartesJeu{Exc § 1.AT § C.C § 8.T § 2.K § 5.AT § 2.AT § D.P § 7.T § 10.C § 19.AT § V.P}\\
 
 \textbf{\large Poker : }\\
-\MiniCartesJeuAleatoire{5} ou \MiniCartesJeuAleatoire{5} ou \MiniCartesJeuAleatoire{5} ou \MiniCartesJeuAleatoire{5}.\\
+\MainMiniCartesJeuAleatoire{5} ou \MainMiniCartesJeuAleatoire{5} ou \MainMiniCartesJeuAleatoire{5} ou \MainMiniCartesJeuAleatoire{5}.\\
 
 \textbf{\large Belote :}\\
-\MiniCartesJeuAleatoire[TypeJeu=Belote]{8} ou \MiniCartesJeuAleatoire[TypeJeu=Belote]{8} ou \MiniCartesJeuAleatoire[TypeJeu=Belote]{8}.\\
+\MainMiniCartesJeuAleatoire[TypeJeu=Belote]{8} ou \MainMiniCartesJeuAleatoire[TypeJeu=Belote]{8} ou \MainMiniCartesJeuAleatoire[TypeJeu=Belote]{8}.\\
 
 \textbf{\large Bataille : }\\
-\MiniCartesJeuAleatoire[TypeJeu=Bataille]{12} ou \MiniCartesJeuAleatoire[TypeJeu=Bataille]{12}.\\
+\MainMiniCartesJeuAleatoire[TypeJeu=Bataille]{12} ou \MainMiniCartesJeuAleatoire[TypeJeu=Bataille]{12}.\\
 
 \textbf{\large Tarot : }\\
-\MiniCartesJeuAleatoire[TypeJeu=Tarot]{10} ou \MiniCartesJeuAleatoire[TypeJeu=Tarot]{10}.
+\MainMiniCartesJeuAleatoire[TypeJeu=Tarot]{10} ou \MainMiniCartesJeuAleatoire[TypeJeu=Tarot]{10}.\\
+
+\textbf{\large Rami : }\\
+\MainMiniCartesJeuAleatoire[TypeJeu=Rami]{15} ou \MainMiniCartesJeuAleatoire[TypeJeu=Rami]{14}.
 \end{codetex}
 
 \pagebreak
@@ -660,24 +715,38 @@ Les \Cle{Clés} sont les mêmes que pour la commande individuelle, avec en plus 
 
 \pagebreak
 
+\subsection{Cartes de Uno}
+
+\AffCartesJeu[TypeJeu=Uno,Hauteur=2]{0B § 1B § 2B § 3B § 4B § 5B § 6B § 7B § 8B § 9B § P2B § PTB § CSB}
+
+\AffCartesJeu[TypeJeu=Uno,Hauteur=2]{0R § 1R § 2R § 3R § 4R § 5R § 6R § 7R § 8R § 9R § P2R § PTR § CSR}
+
+\AffCartesJeu[TypeJeu=Uno,Hauteur=2]{0J § 1J § 2J § 3J § 4J § 5J § 6J § 7J § 8J § 9J § P2J § PTJ § CSJ}
+
+\AffCartesJeu[TypeJeu=Uno,Hauteur=2]{0V § 1V § 2V § 3V § 4V § 5V § 6V § 7V § 8V § 9V § P2V § PTV § CSV}
+
+\AffCartesJeu[TypeJeu=Uno,Hauteur=2]{P4 § Coul § Dos}
+
 \subsection{MiniCartes}
 
-\xintFor #1 in {2,3,4,5,6,7,8,9,10,V,C,D,R,A}\do{\MiniCarteJeu{#1.P}}
+\xintFor #1 in {2,3,4,5,6,7,8,9,10,V,C,D,R,A}\do{\AffMiniCarteJeu{#1.P}}
 
-\xintFor #1 in {2,3,4,5,6,7,8,9,10,V,C,D,R,A}\do{\MiniCarteJeu{#1.C}}
+\xintFor #1 in {2,3,4,5,6,7,8,9,10,V,C,D,R,A}\do{\AffMiniCarteJeu{#1.C}}
 
-\xintFor #1 in {2,3,4,5,6,7,8,9,10,V,C,D,R,A}\do{\MiniCarteJeu{#1.K}}
+\xintFor #1 in {2,3,4,5,6,7,8,9,10,V,C,D,R,A}\do{\AffMiniCarteJeu{#1.K}}
 
-\xintFor #1 in {2,3,4,5,6,7,8,9,10,V,C,D,R,A}\do{\MiniCarteJeu{#1.T}}
+\xintFor #1 in {2,3,4,5,6,7,8,9,10,V,C,D,R,A}\do{\AffMiniCarteJeu{#1.T}}
 
-\MiniCarteJeu{J.N}\MiniCarteJeu{J.R}
+\AffMiniCarteJeu{J.N}\AffMiniCarteJeu{J.R}
 
 \medskip
 
-\MiniCarteJeu{Exc}%
-\xintFor #1 in {1,2,3,4,5,6,7,8,9,10}\do{\MiniCarteJeu{#1.AT}}
+\AffMiniCarteJeu{Exc}%
+\xintFor #1 in {1,2,3,4,5,6,7,8,9,10}\do{\AffMiniCarteJeu{#1.AT}}
 
-\xintFor #1 in {11,12,13,14,15,16,17,18,19,20,21}\do{\MiniCarteJeu{#1.AT}}%
+\xintFor #1 in {11,12,13,14,15,16,17,18,19,20,21}\do{\AffMiniCarteJeu{#1.AT}}%
+
+\pagebreak
 
 \section{Carte simple dans un environnement \TikZ}
 
