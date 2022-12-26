@@ -1,13 +1,16 @@
-% Author     : C. Pierquet
-% licence    : Released under the LaTeX Project Public License v1.3c
-% or later, see http://www.latex-project.org/lppl.txtf
-% Poker cards Image's Licence : LGPL-2.1 license https://github.com/htdebeer/SVG-cards
-% Tarot cards Image's Licence : Public Domain https://freesvg.org/deck-of-french-tarot-playing-cards
-% Uno cards Image's Licence : CC1.0 https://alexder.itch.io/uno-card-game-asset-pack
+% Author                         : C. Pierquet
+% licence                        : Released under the LaTeX Project Public License v1.3c or later, see http://www.latex-project.org/lppl.txtf
+% Poker v1 cards Image's Licence : LGPL-2.1 license https://github.com/htdebeer/SVG-cards
+% Poker v2 cards Image's Licence : Public Domain https://tekeye.uk/playing_cards/svg-playing-cards
+% Poker v3 cards Image's Licence : Public Domain https://www.me.uk/cards/
+% Tarot v1 cards Image's Licence : Public Domain https://freesvg.org/deck-of-french-tarot-playing-cards
+% Uno v1 cards Image's Licence   : MIT License https://eperezcosano.github.io/uno-part1/
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{JeuxCartes}[2022/10/30 v0.1.5 Jeux de cartes]
-% 0.1.5	Correction des noms dans les cartes de Uno
+\ProvidesPackage{JeuxCartes}[2022/12/26 v0.2.0 Jeux de cartes]
+% 0.2.0	Modification des images (en mode pdf !) + v3 Poker + réduction taille Tarot
+% 0.1.7	Correction d'un bug avec les noms de Uno
+% 0.1.5	Ajout v2 pour le Poker
 % 0.1.4	Réduction de la taille des images
 % 0.1.3	Ajout de cartes Uno (CC1.0 par AlexDer) + modification des commandes + rami
 %		Amélioration de la qualité des cartes de Tarot (sans augmenter la taille)
@@ -30,9 +33,6 @@
 \RequirePackage{pifont}
 %librairies tikz
 \usetikzlibrary{calc,scopes}
-%images venant de https://github.com/htdebeer/SVG-cards
-%images venant de https://freesvg.org/deck-of-french-tarot-playing-cards
-%images venant de https://alexder.itch.io/uno-card-game-asset-pack
 
 %------Commande en ligne (includegraphics) via raisebox/rotatebox ou tikz
 \defKV[AffCarteJeu]{%
@@ -59,13 +59,22 @@
 	\setKV[AffCarteJeu]{#1}%
 	%cas poker
 	\IfStrEq{\AffCarteJeuType}{Poker}%poker
-		{\def\CartePrefixe{CaJ-Poker-}}{}%
+		{\def\CartePrefixe{CaJ-PokeRv1-}}{}%
+	%cas pokerv2
+	\IfStrEq{\AffCarteJeuType}{Pokerv2}%poker2
+		{\def\CartePrefixe{CaJ-PokeRv2-}}{}%
+	%cas pokerv3
+	\IfStrEq{\AffCarteJeuType}{Pokerv3}%poker2
+		{\def\CartePrefixe{CaJ-PokeRv3-}}{}%
 	%cas tarot
 	\IfStrEq{\AffCarteJeuType}{Tarot}%tarot
-		{\def\CartePrefixe{CaJ-Tarot-}}{}%
-	%cas tarot
-	\IfStrEq{\AffCarteJeuType}{Uno}%tarot
-		{\def\CartePrefixe{CaJ-Uno-}}{}%
+		{\def\CartePrefixe{CaJ-TaroTv1-}}{}%
+	%cas uno
+	\IfStrEq{\AffCarteJeuType}{Uno}%uno
+		{\def\CartePrefixe{CaJ-UnOv1-}}{}%
+	%cas unov2
+%	\IfStrEq{\AffCarteJeuType}{Unov2}%uno
+%		{\def\CartePrefixe{CaJ-Unov2-}}{}%
 	%transformation valign en tikz
 	\def\OptionTikzCBB{current bounding box.center}%
 	\IfStrEq{\AffCarteJeuAlignementV}{0}%
@@ -142,11 +151,17 @@
 	\readlist*\ListeCartesMain{#2}%
 	\def\NbCartesMain{\ListeCartesMainlen}%nbcartes
 	\IfStrEq{\MainJeuType}{Poker}%poker
-		{\def\HauteurGenerique{8.5}\def\CarteMainPrefixe{CaJ-Poker-}}{}%
+		{\def\HauteurGenerique{8.5}\def\CarteMainPrefixe{CaJ-PokeRv1-}}{}%
+	\IfStrEq{\MainJeuType}{Pokerv2}%poker2
+		{\def\HauteurGenerique{8.5}\def\CarteMainPrefixe{CaJ-PokeRv2-}}{}%
+	\IfStrEq{\MainJeuType}{Pokerv3}%poker3
+		{\def\HauteurGenerique{8.5}\def\CarteMainPrefixe{CaJ-PokeRv3-}}{}%
 	\IfStrEq{\MainJeuType}{Tarot}%tarot
-		{\def\HauteurGenerique{5.5}\def\CarteMainPrefixe{CaJ-Tarot-}}{}%
+		{\def\HauteurGenerique{5.5}\def\CarteMainPrefixe{CaJ-TaroTv1-}}{}%
 	\IfStrEq{\MainJeuType}{Uno}%uno
-		{\def\HauteurGenerique{8.5}\def\CarteMainPrefixe{CaJ-Uno-}}{}%
+		{\def\HauteurGenerique{8.5}\def\CarteMainPrefixe{CaJ-UnOv1-}}{}%
+%	\IfStrEq{\MainJeuType}{Unov2}%unov2
+%		{\def\HauteurGenerique{8.5}\def\CarteMainPrefixe{CaJ-Unov2-}}{}%
 	%echelle globale
 	\def\EchelleCarteDecalage{\fpeval{\MainHauteur/\HauteurGenerique}}%
 	%transformation valign en tikz
@@ -208,14 +223,32 @@
 	%calculs et traitement des variables
 	\IfStrEq{\MainJeuType}{Poker}%poker
 		{\def\HauteurGenerique{8.5}\def\CarteMainType{Poker}\xdef\CarteDebutRand{\fpeval{randint(0,52-#2)}}}{}%
+	\IfStrEq{\MainJeuType}{Pokerv2}%pokerv2
+		{\def\HauteurGenerique{8.5}\def\CarteMainType{Pokerv2}\xdef\CarteDebutRand{\fpeval{randint(0,52-#2)}}}{}%
+	\IfStrEq{\MainJeuType}{Pokerv3}%pokerv3
+		{\def\HauteurGenerique{8.5}\def\CarteMainType{Pokerv3}\xdef\CarteDebutRand{\fpeval{randint(0,52-#2)}}}{}%
 	\IfStrEq{\MainJeuType}{Uno}%uno
 		{\def\HauteurGenerique{8.5}\def\CarteMainType{Uno}\xdef\CarteDebutRand{\fpeval{randint(0,108-#2)}}}{}%
+%	\IfStrEq{\MainJeuType}{Unov2}%unov2
+%		{\def\HauteurGenerique{8.5}\def\CarteMainType{Unov2}\xdef\CarteDebutRand{\fpeval{randint(0,108-#2)}}}{}%
 	\IfStrEq{\MainJeuType}{Bataille}%bataille
 		{\def\HauteurGenerique{8.5}\def\CarteMainType{Poker}\xdef\CarteDebutRand{\fpeval{randint(0,54-#2)}}}{}%
-	\IfStrEq{\MainJeuType}{Belote}%poker
+	\IfStrEq{\MainJeuType}{Bataillev2}%bataillev2
+		{\def\HauteurGenerique{8.5}\def\CarteMainType{Pokerv2}\xdef\CarteDebutRand{\fpeval{randint(0,54-#2)}}}{}%
+	\IfStrEq{\MainJeuType}{Bataillev3}%bataillev3
+		{\def\HauteurGenerique{8.5}\def\CarteMainType{Pokerv3}\xdef\CarteDebutRand{\fpeval{randint(0,54-#2)}}}{}%
+	\IfStrEq{\MainJeuType}{Belote}%belote
 		{\def\HauteurGenerique{8.5}\def\CarteMainType{Poker}\xdef\CarteDebutRand{\fpeval{randint(0,32-#2)}}}{}%
+	\IfStrEq{\MainJeuType}{Belotev2}%belotev2
+		{\def\HauteurGenerique{8.5}\def\CarteMainType{Pokerv2}\xdef\CarteDebutRand{\fpeval{randint(0,32-#2)}}}{}%
+	\IfStrEq{\MainJeuType}{Belotev2}%belotev3
+		{\def\HauteurGenerique{8.5}\def\CarteMainType{Pokerv3}\xdef\CarteDebutRand{\fpeval{randint(0,32-#2)}}}{}%
 	\IfStrEq{\MainJeuType}{Rami}%rami
-	{\def\HauteurGenerique{8.5}\def\CarteMainType{Poker}\xdef\CarteDebutRand{\fpeval{randint(0,108-#2)}}}{}%
+		{\def\HauteurGenerique{8.5}\def\CarteMainType{Poker}\xdef\CarteDebutRand{\fpeval{randint(0,108-#2)}}}{}%
+	\IfStrEq{\MainJeuType}{Ramiv2}%ramiv2
+		{\def\HauteurGenerique{8.5}\def\CarteMainType{Pokerv2}\xdef\CarteDebutRand{\fpeval{randint(0,108-#2)}}}{}%
+	\IfStrEq{\MainJeuType}{Ramiv3}%ramiv3
+		{\def\HauteurGenerique{8.5}\def\CarteMainType{Pokerv3}\xdef\CarteDebutRand{\fpeval{randint(0,108-#2)}}}{}%
 	\IfStrEq{\MainJeuType}{Tarot}%tarot
 		{\def\HauteurGenerique{6.375}\def\CarteMainType{Tarot}\xdef\CarteDebutRand{\fpeval{randint(0,78-#2)}}}{}%
 	%échelle relative des cartes
@@ -234,7 +267,31 @@
 			\do{\InsertRandomItem{CartesJeuMelange}{##1}}%
 		}%
 		{}%
+	\IfStrEq{\MainJeuType}{Pokerv2}%si c'est le pokerv2
+		{%
+			\xintFor* ##1 in {\xintCSVtoList{\CartesJeuPoker}}%
+			\do{\InsertRandomItem{CartesJeuMelange}{##1}}%
+		}%
+		{}%
+	\IfStrEq{\MainJeuType}{Pokerv3}%si c'est le pokerv3
+		{%
+			\xintFor* ##1 in {\xintCSVtoList{\CartesJeuPoker}}%
+			\do{\InsertRandomItem{CartesJeuMelange}{##1}}%
+		}%
+		{}%
 	\IfStrEq{\MainJeuType}{Bataille}%si c'est la bataille
+		{%
+			\xintFor* ##1 in {\xintCSVtoList{\CartesJeuBataille}}%
+			\do{\InsertRandomItem{CartesJeuMelange}{##1}}%
+		}%
+		{}%
+	\IfStrEq{\MainJeuType}{Bataillev2}%si c'est la bataillev2
+		{%
+			\xintFor* ##1 in {\xintCSVtoList{\CartesJeuBataille}}%
+			\do{\InsertRandomItem{CartesJeuMelange}{##1}}%
+		}%
+		{}%
+	\IfStrEq{\MainJeuType}{Bataillev3}%si c'est la bataillev3
 		{%
 			\xintFor* ##1 in {\xintCSVtoList{\CartesJeuBataille}}%
 			\do{\InsertRandomItem{CartesJeuMelange}{##1}}%
@@ -246,13 +303,43 @@
 			\do{\InsertRandomItem{CartesJeuMelange}{##1}}%
 		}%
 		{}%
+	\IfStrEq{\MainJeuType}{Ramiv2}%si c'est le ramiv2
+		{%
+			\xintFor* ##1 in {\xintCSVtoList{\CartesJeuRami}}%
+			\do{\InsertRandomItem{CartesJeuMelange}{##1}}%
+		}%
+		{}%
+	\IfStrEq{\MainJeuType}{Ramiv3}%si c'est le ramiv3
+		{%
+			\xintFor* ##1 in {\xintCSVtoList{\CartesJeuRami}}%
+			\do{\InsertRandomItem{CartesJeuMelange}{##1}}%
+		}%
+		{}%
 	\IfStrEq{\MainJeuType}{Uno}%si c'est le uno
 		{%
 			\xintFor* ##1 in {\xintCSVtoList{\CartesJeuUno}}%
 			\do{\InsertRandomItem{CartesJeuMelange}{##1}}%
 		}%
 		{}%
-	\IfStrEq{\MainJeuType}{Belote}%si c'est le poker
+%	\IfStrEq{\MainJeuType}{Unov2}%si c'est le unov2
+%		{%
+%			\xintFor* ##1 in {\xintCSVtoList{\CartesJeuUno}}%
+%			\do{\InsertRandomItem{CartesJeuMelange}{##1}}%
+%		}%
+%		{}%
+	\IfStrEq{\MainJeuType}{Belote}%si c'est la belote
+		{%
+			\xintFor* ##1 in {\xintCSVtoList{\CartesJeuBelote}}%
+			\do{\InsertRandomItem{CartesJeuMelange}{##1}}%
+		}%
+		{}%
+	\IfStrEq{\MainJeuType}{Belotev2}%si c'est la belotev2
+		{%
+			\xintFor* ##1 in {\xintCSVtoList{\CartesJeuBelote}}%
+			\do{\InsertRandomItem{CartesJeuMelange}{##1}}%
+		}%
+		{}%
+	\IfStrEq{\MainJeuType}{Belotev3}%si c'est la belotev3
 		{%
 			\xintFor* ##1 in {\xintCSVtoList{\CartesJeuBelote}}%
 			\do{\InsertRandomItem{CartesJeuMelange}{##1}}%
@@ -287,7 +374,7 @@
 
 %------commande mini-cartes
 \defKV[AffMiniCartes]{%
-	Largeur=\def\MiniCarteLargeur{#1},
+	Largeur=\def\MiniCarteLargeur{#1},%
 	FondAtout=\def\MiniCarteFondAtout{#1}
 }
 \setKVdefault[AffMiniCartes]{%
@@ -316,7 +403,7 @@
 	\IfStrEq{\csVal}{19}{\def\csVal{\scalebox{0.5}[1]{19}}}{}%
 	\IfStrEq{\csVal}{20}{\def\csVal{\scalebox{0.5}[1]{20}}}{}%
 	\IfStrEq{\csVal}{21}{\def\csVal{\scalebox{0.5}[1]{21}}}{}%
-	%le cas du Excuse
+	%le cas de Excuse
 	\IfStrEq{#2}{Exc}%
 	{\def\csSymb{\ding{168}}\def\csCoul{blue}%
 		\def\csVal{\scalebox{0.33}[1]{EXC}}}{}%
