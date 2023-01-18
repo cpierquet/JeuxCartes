@@ -32,7 +32,24 @@
 \cfoot{\sffamily \small - \thepage{} -}
 \rfoot{\hyperlink{matoc}{\small\faArrowAltCircleUp[regular]}}
 
-\usepackage{hvlogos}
+%\usepackage{hvlogos}
+\usepackage{hologo}
+\providecommand\tikzlogo{Ti\textit{k}Z}
+\providecommand\TeXLive{\TeX{}Live\xspace}
+\providecommand\PSTricks{\textsf{PSTricks}\xspace}
+\let\pstricks\PSTricks
+\let\TikZ\tikzlogo
+\newcommand\TableauDocumentation{%
+	\begin{tblr}{width=\linewidth,colspec={X[c]X[c]X[c]X[c]X[c]X[c]},cells={font=\sffamily}}
+		{\huge \LaTeX} & & & & &\\
+		& {\huge \hologo{pdfLaTeX}} & & & & \\
+		& & {\huge \hologo{LuaLaTeX}} & & & \\
+		& & & {\huge \TikZ} & & \\
+		& & & & {\huge \TeXLive} & \\
+		& & & & & {\huge \hologo{MiKTeX}} \\
+	\end{tblr}
+}
+
 \usepackage{menukeys}
 \let\tab\relax
 \usepackage{tabto}
@@ -157,14 +174,7 @@ Une commande pour des cartes en version \og miniatures \fg{} (individuelle, main
 
 \medskip
 
-\begin{tblr}{width=\linewidth,colspec={X[c]X[c]X[c]X[c]X[c]X[c]},cells={font=\sffamily}}
-	{\huge \LaTeX} & & & & &\\
-	& {\huge \pdfLaTeX} & & & & \\
-	& & {\huge \LuaLaTeX} & & & \\
-	& & & {\huge \TikZ} & & \\
-	& & & & {\huge \TeXLive} & \\
-	& & & & & {\huge \MiKTeX} \\
-\end{tblr}
+\TableauDocumentation
 
 \medskip
 
