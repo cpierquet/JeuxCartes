@@ -69,8 +69,8 @@
 \setlength{\parindent}{0pt}
 \definecolor{LightGray}{gray}{0.9}
 
-\def\TPversion{0.2.1}
-\def\TPdate{27 Décembre 2022}
+\def\TPversion{0.2.3}
+\def\TPdate{25 Février 2023}
 
 \usepackage[most]{tcolorbox}
 \usepackage[outputdir=build]{minted}
@@ -191,23 +191,27 @@ Une commande pour des cartes en version \og miniatures \fg{} (individuelle, main
 
 \tableofcontents
 
-\vfill~
+\pagebreak
 
 \part{Historique}
 
-{\small \bverb|v0.2.1|~:~~~~Correction du nom d'une carte pokerv1...
+{\small \bverb|v0.2.3 |~:~~~~Ajout d'une clé \textsf{inverse} + dos Uno + style v5 pour le Poker
 
-{\small \bverb|v0.2.0|~:~~~~Modification du design des cartes (pdf pour Poker/Uno + png pour Tarot) + alternatives pour le Poker
+{\small \bverb|v0.2.2a|~:~~~~Ajout d'un style v4 pour le Poker
 
-{\small \bverb|v0.1.4|~:~~~~Réduction de la taille des images \texttt{png}
+{\small \bverb|v0.2.1 |~:~~~~Correction du nom d'une carte Poker (v1)...
 
-{\small \bverb|v0.1.3|~:~~~~Ajout de cartes Uno (CC1.0 par AlexDer) + modification des commandes + rami
+{\small \bverb|v0.2.0 |~:~~~~Modification du design des cartes (pdf pour Poker/Uno + png pour Tarot) + alternatives pour le Poker
 
-{\small \bverb|v0.1.2|~:~~~~Modification du nom (et de la source) des images de Tarot (CC0)
+{\small \bverb|v0.1.4 |~:~~~~Réduction de la taille des images \texttt{png}
 
-{\small \bverb|v0.1.1|~:~~~~Ajout de commandes pour des mini-cartes
+{\small \bverb|v0.1.3 |~:~~~~Ajout de cartes Uno (CC1.0 par AlexDer) + modification des commandes + rami
 
-{\small \bverb|v0.1  |~:~~~~Version initiale
+{\small \bverb|v0.1.2 |~:~~~~Modification du nom (et de la source) des images de Tarot (CC0)
+
+{\small \bverb|v0.1.1 |~:~~~~Ajout de commandes pour des mini-cartes
+
+{\small \bverb|v0.1   |~:~~~~Version initiale
 
 \vfill~
 
@@ -220,20 +224,18 @@ Une commande pour des cartes en version \og miniatures \fg{} (individuelle, main
 \subsection{\og Philosophie \fg{} du package}
 
 \begin{codeidee}
-L'idée de ce package est de proposer, comme le fait \ctex{pst-poker}, des commandes pour intégrer des cartes de poker dans un document \LaTeX.
+L'idée de ce package est de proposer, comme le fait \ctex{pst-poker}, des commandes pour intégrer des cartes à jouer dans un document \LaTeX.
 
-Les cartes sont des images :
+Les cartes disponibles sont : :
 %
 \begin{itemize}
-%	\item les cartes type \textsf{Poker} sont sous licence LGPL, \copyright{}2005, de David Bellot, via \url{https://github.com/htdebeer/SVG-cards} ;
-%	\item les cartes type \textsf{Tarot} sous licence CC0, du site \url{https://freesvg.org} ;
-%	\item les cartes type \textsf{Uno} (édité par Mattel\texttrademark) sous licence CC0, du site \url{https://alexder.itch.io/uno-card-game-asset-pack}.
 	\item les cartes type \textsf{Poker v1} (Licence : LGPL-2.1 license)  \url{https://github.com/htdebeer/SVG-cards}
 	\item les cartes type \textsf{Poker v2} (Licence : Public Domain)  \url{https://tekeye.uk/playing_cards/svg-playing-cards}
 	\item les cartes type \textsf{Poker v3} (Licence : Public Domain) \url{https://www.me.uk/cards/}
+	\item les cartes type \textsf{Poker v4} (Licence : CC BY-SA 4.0) \url{https://commons.wikimedia.org/wiki/File:Computer_screen_playing_cards_deck.svg}
+	\item les cartes type \textsf{Poker v5} (Licence : Public Domain) \url{https://www.me.uk/cards/}
 	\item les cartes type \textsf{Tarot} (Licence : Public Domain) \url{https://freesvg.org/deck-of-french-tarot-playing-cards}
 	\item les cartes type \textsf{Uno} (Licence : MIT License) \url{https://eperezcosano.github.io/uno-part1/}
-	% Uno v2 cards Image's Licence   : CC1.0 https://alexder.itch.io/uno-card-game-asset-pack
 \end{itemize}
 \end{codeidee}
 
@@ -242,7 +244,7 @@ Le {package} \ctex{JeuxCartes} charge les {packages} :
 
 \begin{itemize}
 	\item \ctex{tikz}, \ctex{pifont}, \ctex{xfp}, \ctex{pgffor}, \ctex{xinttools} ;
-	\item \ctex{listofitems}, \ctex{xstring}, \ctex{xparse} et \ctex{simplekv} ;
+	\item \ctex{listofitems}, \ctex{xstring} et \ctex{simplekv} ;
 	\item \ctex{randomlist}, \ctex{xcolor} avec les options \ctex{[table,svgnames]}.
 \end{itemize}
 \end{codeinfo}
@@ -263,7 +265,7 @@ Les images utiles sont proposées en format \textsf{pdf} pour les cartes type \t
 
 \smallskip
 
-Les fichiers \textsf{eps} ne sont pas intégrées dans le package, mais elles sont disponible sur le dépôt \textsf{github} \url{https://github.com/cpierquet/JeuxCartes}.
+Les fichiers \textsf{eps} ne sont pas intégrés dans le package, mais elles sont disponibles sur le dépôt \textsf{github} \url{https://github.com/cpierquet/JeuxCartes}.
 
 \smallskip
 
@@ -321,8 +323,8 @@ Les \textsf{codes} seront présentés dans des \textsf{boîtes} \textcolor{red!7
 Les \textit{Jeux} disponibles sont :
 
 \begin{itemize}
-	\item \Cle{Poker}, \Cle{Pokerv2}, \Cle{Pokerv3}, \Cle{Tarot} et \Cle{Uno} pour l'affichage des cartes ;
-	\item \Cle{Poker}, \Cle{Pokerv2}, \Cle{Pokerv3}, \Cle{Tarot}, \Cle{Bataille}, \Cle{Rami}, \Cle{Belote} et \Cle{Uno} pour les mains aléatoires ;
+	\item \Cle{Poker(vX)}, \Cle{Tarot} et \Cle{Uno} pour l'affichage des cartes ;
+	\item \Cle{Poker(vX)}, \Cle{Bataille(vX)}, \Cle{Rami(vX)}, \Cle{Belote(vX)}, \Cle{Tarot}  et \Cle{Uno} pour les mains aléatoires ;
 	\item \Cle{Poker} et \Cle{Tarot} pour les \textit{mini-}cartes.
 \end{itemize}
 \end{codeinfo}
@@ -361,15 +363,15 @@ Les \textit{Jeux} disponibles sont :
 \begin{codeinfo}
 La commande \ctex{AffCarteJeu} affiche une carte, avec un système de clés/options.
 
-La commande \ctex{AffCartesJeu} affiche une liste de cartes ne mode \textit{côte à côte}, avec un système de clés/options.
+La commande \ctex{AffCartesJeu} affiche une liste de cartes en mode \textit{côte à côte}, avec un système de clés/options.
 \end{codeinfo}
 
 \begin{codetex}[]
 \AffCarteJeu{VP}\AffCarteJeu{10K}\AffCarteJeu{AC}\AffCarteJeu{Dos}\AffCarteJeu{DT}\\ \\
-\AffCarteJeu[TypeJeu=Tarot]{VP}\AffCarteJeu[TypeJeu=Tarot]{Dos}
-\AffCarteJeu[TypeJeu=Tarot]{Exc}\AffCarteJeu[TypeJeu=Tarot]{1AT}
+\AffCarteJeu[TypeJeu=Tarot]{VP}\AffCarteJeu[TypeJeu=Tarot]{Dos}%
+\AffCarteJeu[TypeJeu=Tarot]{Exc}\AffCarteJeu[TypeJeu=Tarot]{1AT}%
 \AffCarteJeu[TypeJeu=Tarot]{10K}\AffCarteJeu[TypeJeu=Tarot]{18AT}\\ \\
-\AffCartesJeu[TypeJeu=Uno]{P4 § PTR § Coul § 7B § 8V}
+\AffCartesJeu[TypeJeu=Uno]{P4 § PTR § Dos § Coul § 7B § 8V}
 \end{codetex}
 
 \subsection{Noms de cartes}
@@ -408,7 +410,7 @@ est fixé suivant le modèle suivant (typiquement \texttt{<hauteur>.<couleur>} )
 		\item \texttt{CSB}, \texttt{CSR}, \texttt{CSB}, \texttt{CSJ}, \texttt{CSV}\dotfill\Cle{ChangeSens}
 		\item \texttt{P4}\dotfill\Cle{+4}
 		\item \texttt{Coul}\dotfill\Cle{JokerCouleur}
-		%\item \texttt{Dos}\dotfill\Cle{Dos}
+		\item \texttt{Dos}\dotfill\Cle{Dos}
 	\end{itemize}
 \end{itemize}
 \end{codeinfo}
@@ -425,7 +427,7 @@ Concernant les \Cle{options} :
 
 \begin{itemize}
 	\item la clé \Cle{Hauteur} correspond à la hauteur voulue, en cm, de la carte ; \hfill{}défaut \Cle{4.25}
-	\item la clé \Cle{TypeJeu} (parmi \Cle{PokerXXX} ou \Cle{Tarot} ou \Cle{Uno}) pour spécifier les cartes à utiliser ; \hfill{}défaut \Cle{Poker}
+	\item la clé \Cle{TypeJeu} (parmi \Cle{Poker(vX)} ou \Cle{Tarot} ou \Cle{Uno}) pour spécifier les cartes à utiliser ; \hfill{}défaut \Cle{Poker}
 	\item la clé \Cle{Rotation} pour une éventuelle rotation de la carte ; \hfill{}défaut \Cle{0}
 	\item la clé \Cle{AlignementV} pour l'alignement vertical (lié à \ctex{raisebox} ou à \TikZ) ; \hfill{}défaut \Cle{0.5}
 	\item le booléen \Cle{Tikz} pour préciser que la carte est \textit{autonome}, dans un environnement \ctex{tikzpicture} ; \hfill{}défaut \Cle{false}
@@ -464,15 +466,17 @@ On obtient la main \AffCartesJeu[Hauteur=2,TypeJeu=Uno]{9B § 8R § P2J § P4 §
 
 \pagebreak
 
-\subsection{Designs disponibles pour les cartes classiques}
+\subsection{Designs disponibles pour les cartes classiques (Poker)}
 
 \begin{codeinfo}
-Il existe 3 versions de design des cartes \textit{classiques}, accessibles via les clés :
+Il existe 5 versions de design des cartes \textit{classiques}, accessibles via les clés :
 
 \begin{itemize}
 	\item \Cle{Poker} ;
 	\item \Cle{Pokerv2} ;
-	\item \Cle{Pokerv3}.
+	\item \Cle{Pokerv3} ;
+	\item \Cle{Pokerv4} ;
+	\item \Cle{Pokerv5}.
 \end{itemize}
 \end{codeinfo}
 
@@ -483,6 +487,10 @@ Il existe 3 versions de design des cartes \textit{classiques}, accessibles via l
 \AffCartesJeu[Hauteur=2,TypeJeu=Pokerv2]{DK § AP § 10T § VP § 8T § RT § 9C} \\ \\
 \textbf{Design v3} :\\
 \AffCartesJeu[Hauteur=2,TypeJeu=Pokerv3]{DK § AP § 10T § VP § 8T § RT § 9C} \\ \\
+\textbf{Design v4} :\\
+\AffCartesJeu[Hauteur=2,TypeJeu=Pokerv4]{DK § AP § 10T § VP § 8T § RT § 9C} \\ \\
+\textbf{Design v5} :\\
+\AffCartesJeu[Hauteur=2,TypeJeu=Pokerv5]{DK § AP § 10T § VP § 8T § RT § 9C} \\
 \end{codetex}
 
 \pagebreak
@@ -516,12 +524,13 @@ Les \Cle{options} sont les suivantes :
 
 \begin{itemize}
 	\item la clé \Cle{Hauteur} correspond à la hauteur voulue, en cm, des cartes ; \hfill{}défaut \Cle{4.25}
-	\item la clé \Cle{TypeJeu} (parmi \Cle{PokerXXX} ou \Cle{Tarot} ou \Cle{Uno}) pour spécifier les cartes à utiliser ; \hfill{}défaut \Cle{Poker}
+	\item la clé \Cle{TypeJeu} (parmi \Cle{Poker(vX)} ou \Cle{Tarot} ou \Cle{Uno}) pour spécifier les cartes à utiliser ; \hfill{}défaut \Cle{Poker}
 	\item la clé \Cle{EspH} correspond à coefficient d'espacement horizontal (\textit{proche} du cm en taille réelle) entre les cartes ; \hfill{}défaut \Cle{1}
 	\item la clé \Cle{EspH} correspond à coefficient d'espacement vertical (\textit{proche} du cm en taille réelle) entre les cartes ; \hfill{}défaut \Cle{0}
 	\item le booléen \Cle{Eventail} pour une présentation en éventail ; \hfill{}défaut \Cle{false}
 	\item la clé \Cle{Rotation} pour l'angle entre les cartes en mode \Cle{Eventail}  ; \hfill{}défaut \Cle{10}
-	\item la clé \Cle{AlignementV} pour l'alignement vertical lié à \TikZ{}\hfill{}défaut \Cle{0.5}
+	\item la clé \Cle{AlignementV} pour l'alignement vertical lié à \TikZ{} ;\hfill{}défaut \Cle{0.5}
+	\item le booléen \Cle{Inverse} pour une présentation de \frquote{droite à gauche}.\hfill{}défaut \Cle{false}
 \end{itemize}
 \end{codecles}
 
@@ -554,7 +563,7 @@ Les exemples proposés dans cette documentation permettent de se rendre compte d
 
 \smallskip
 
-Ça c'est une belle poignée ! \MainCartesJeu[Eventail,Hauteur=3,TypeJeu=Tarot,EspH=0,EspV=0.1]%
+Ça c'est une belle poignée ! \MainCartesJeu[Inverse,Eventail,Hauteur=3,TypeJeu=Tarot,EspH=0,EspV=0.1]%
 	{Exc § 1AT § 2AT § 3AT § 4AT § 5AT § 6AT § %
 	10AT § 11AT § 15AT § 16AT § 19AT § 20AT § 21AT}
 
@@ -591,12 +600,13 @@ Les \Cle{options} sont les suivantes :
 
 \begin{itemize}
 	\item la clé \Cle{Hauteur} correspond à la hauteur voulue, en cm, des cartes ; \hfill{}défaut \Cle{4.25}
-	\item la clé \Cle{TypeJeu} (parmi \Cle{PokerXXX} ou \Cle{Tarot} ou \Cle{Belote} ou \Cle{Bataille} ou \Cle{Rami} ou \Cle{Uno}) ; \hfill{}défaut \Cle{Poker}
+	\item la clé \Cle{TypeJeu} (parmi \Cle{Poker(vX)} ou \Cle{Belote(vX)} ou \Cle{Bataille(vX)} ou \Cle{Rami(vX)} ou \Cle{Uno} ou \Cle{Tarot}) ; \hfill{}défaut \Cle{Poker}
 	\item la clé \Cle{EspH} correspond à coefficient d'espacement horizontal (\textit{proche} du cm en taille réelle) entre les cartes ; \hfill{}défaut \Cle{1}
 	\item la clé \Cle{EspH} correspond à coefficient d'espacement vertical (\textit{proche} du cm en taille réelle) entre les cartes ; \hfill{}défaut \Cle{0}
 	\item le booléen \Cle{Eventail} pour une présentation en éventail ; \hfill{}défaut \Cle{false}
 	\item la clé \Cle{Rotation} pour l'angle entre les cartes en mode \Cle{Eventail}  ; \hfill{}défaut \Cle{10}
-	\item la clé \Cle{AlignementV} pour l'alignement vertical lié à \TikZ{}\hfill{}défaut \Cle{0.5}
+	\item la clé \Cle{AlignementV} pour l'alignement vertical lié à \TikZ{} ;\hfill{}défaut \Cle{0.5}
+	\item le booléen \Cle{Inverse} pour une présentation de \frquote{droite à gauche}.\hfill{}défaut \Cle{false}
 \end{itemize}
 \end{codecles}
 
@@ -604,10 +614,10 @@ Les \Cle{options} sont les suivantes :
 En ce qui concerne les \textit{jeux} disponibles (non modifiables) :
 
 \begin{itemize}
-	\item \Cle{Poker} ou \Cle{Pokerv2} ou \Cle{Pokerv3} : 52 cartes (sans Joker) ;
-	\item \Cle{Belote} ou \Cle{Belotev2} ou \Cle{Belotev3} : 32 cartes (sans Joker) ;
-	\item \Cle{Bataille} ou \Cle{Bataillev2} ou \Cle{Bataillev3}: 54 cartes (avec Jokers) ;
-	\item \Cle{Rami} ou \Cle{Ramiv2} ou \Cle{Ramiv3} : 108 cartes (avec Jokers) ;
+	\item \Cle{Poker(vX)} : 52 cartes (sans Joker) ;
+	\item \Cle{Belote(vX)} : 32 cartes (sans Joker) ;
+	\item \Cle{Bataille(vX)} : 54 cartes (avec Jokers) ;
+	\item \Cle{Rami(vX)} : 108 cartes (avec Jokers) ;
 	\item \Cle{Tarot} : 78 cartes ;
 	\item \Cle{Uno}.
 \end{itemize}
@@ -616,12 +626,12 @@ En ce qui concerne les \textit{jeux} disponibles (non modifiables) :
 \pagebreak
 
 \begin{codetex}[]
-\textbf{\large Belote v1 \& Belote v2 :} \\ \\
-\MainCartesJeuAleatoire[Hauteur=2.5,TypeJeu=Belote]{8} ou \MainCartesJeuAleatoire[Hauteur=2.5,TypeJeu=Belotev2]{8}.\\ \\
+\textbf{\large Belote v1 \& Belote v4 \& Belote v5 :} \\ \\
+\MainCartesJeuAleatoire[Hauteur=2.5,TypeJeu=Belote]{8} ou \MainCartesJeuAleatoire[Hauteur=2.5,TypeJeu=Belotev4]{8} ou \MainCartesJeuAleatoire[Hauteur=2.5,TypeJeu=Belotev5]{8}.\\ \\
 \textbf{\large Poker v1 \& Poker v3 :} \\ \\
 \MainCartesJeuAleatoire[Hauteur=2.5,Eventail,EspH=0,EspV=0.1]{5} ou  \MainCartesJeuAleatoire[Hauteur=2.5,Eventail,EspH=0,EspV=0.1,TypeJeu=Pokerv3]{5}.\\ \\
-\textbf{\large Bataille v1 :} \\ \\
-\MainCartesJeuAleatoire[Hauteur=2.5,TypeJeu=Bataille]{27}\\ \\
+\textbf{\large Bataille v2 :} \\ \\
+\MainCartesJeuAleatoire[Hauteur=2.5,TypeJeu=Bataillev2]{27}\\ \\
 \textbf{\large Tarot :} \\
 \MainCartesJeuAleatoire[Hauteur=3.25,TypeJeu=Tarot]{10} ou~
 \MainCartesJeuAleatoire[Hauteur=3.25,Eventail,TypeJeu=Tarot,EspH=0,EspV=0.1]{10}.
@@ -741,7 +751,11 @@ Les \Cle{Clés} sont les mêmes que pour la commande individuelle, avec en plus 
 
 \section{Cartes disponibles}
 
-\subsection{Poker/Bataille/Belote (v1)}
+\subsection{Poker/Bataille/Belote/Rami (v1)}
+
+Dos disponibles : \texttt{Dos}
+
+\medskip
 
 \xintFor #1 in {2,3,4,5,6,7,8,9,10,V,D,R,A}\do{\AffCarteJeu[Hauteur=1.85]{#1P}}
 
@@ -754,7 +768,11 @@ Les \Cle{Clés} sont les mêmes que pour la commande individuelle, avec en plus 
 \AffCarteJeu[Hauteur=1.85]{JN}\AffCarteJeu[Hauteur=1.85]{JR}\AffCarteJeu[Hauteur=1.85]{Dos}%
 %\xintFor #1 in {Bleu,BleuVert,Fuchsia,Gris,Jaune,Marron,Navy,Noir,Olive,Vert,Violet}\do{\AffCarteJeu[Hauteur=1.75]{Dos#1}}
 
-\subsection{Poker/Bataille/Belote (v2)}
+\subsection{Poker/Bataille/Belote/Rami (v2)}
+
+Dos disponibles : \texttt{DosBleu} ou \texttt{DosRouge} ou \texttt{DosBleu2} ou \texttt{DosRouge2}
+
+\medskip
 
 \xintFor #1 in {2,3,4,5,6,7,8,9,10,V,D,R,A}\do{\AffCarteJeu[TypeJeu=Pokerv2,Hauteur=1.85]{#1P}}
 
@@ -769,7 +787,11 @@ Les \Cle{Clés} sont les mêmes que pour la commande individuelle, avec en plus 
 
 \pagebreak
 
-\subsection{Poker/Bataille/Belote (v3)}
+\subsection{Poker/Bataille/Belote/Rami (v3)}
+
+Dos disponibles : \texttt{DosNoir} ou \texttt{DosRouge}
+
+\medskip
 
 \xintFor #1 in {2,3,4,5,6,7,8,9,10,V,D,R,A}\do{\AffCarteJeu[TypeJeu=Pokerv3,Hauteur=1.85]{#1P}}
 
@@ -780,6 +802,40 @@ Les \Cle{Clés} sont les mêmes que pour la commande individuelle, avec en plus 
 \xintFor #1 in {2,3,4,5,6,7,8,9,10,V,D,R,A}\do{\AffCarteJeu[TypeJeu=Pokerv3,Hauteur=1.85]{#1T}}
 
 \AffCarteJeu[TypeJeu=Pokerv3,Hauteur=1.85]{JN}\AffCarteJeu[TypeJeu=Pokerv3,Hauteur=1.85]{JR}\AffCarteJeu[TypeJeu=Pokerv3,Hauteur=1.85]{DosNoir}\AffCarteJeu[TypeJeu=Pokerv3,Hauteur=1.85]{DosRouge}%
+
+\subsection{Poker/Bataille/Belote/Rami (v4)}
+
+Dos disponibles : \texttt{DosBleu} ou \texttt{DosRouge}
+
+\medskip
+
+\xintFor #1 in {2,3,4,5,6,7,8,9,10,V,D,R,A}\do{\AffCarteJeu[TypeJeu=Pokerv4,Hauteur=1.85]{#1P}}
+
+\xintFor #1 in {2,3,4,5,6,7,8,9,10,V,D,R,A}\do{\AffCarteJeu[TypeJeu=Pokerv4,Hauteur=1.85]{#1C}}
+
+\xintFor #1 in {2,3,4,5,6,7,8,9,10,V,D,R,A}\do{\AffCarteJeu[TypeJeu=Pokerv4,Hauteur=1.85]{#1K}}
+
+\xintFor #1 in {2,3,4,5,6,7,8,9,10,V,D,R,A}\do{\AffCarteJeu[TypeJeu=Pokerv4,Hauteur=1.85]{#1T}}
+
+\AffCarteJeu[TypeJeu=Pokerv4,Hauteur=1.85]{JN}\AffCarteJeu[TypeJeu=Pokerv4,Hauteur=1.85]{JR}\AffCarteJeu[TypeJeu=Pokerv4,Hauteur=1.85]{DosRouge}\AffCarteJeu[TypeJeu=Pokerv4,Hauteur=1.85]{DosBleu}%
+
+\pagebreak
+
+\subsection{Poker/Bataille/Belote/Rami (v5)}
+
+Dos disponibles : \texttt{DosNoir} ou \texttt{DosRouge}
+
+\medskip
+
+\xintFor #1 in {2,3,4,5,6,7,8,9,10,V,D,R,A}\do{\AffCarteJeu[TypeJeu=Pokerv5,Hauteur=1.85]{#1P}}
+
+\xintFor #1 in {2,3,4,5,6,7,8,9,10,V,D,R,A}\do{\AffCarteJeu[TypeJeu=Pokerv5,Hauteur=1.85]{#1C}}
+
+\xintFor #1 in {2,3,4,5,6,7,8,9,10,V,D,R,A}\do{\AffCarteJeu[TypeJeu=Pokerv5,Hauteur=1.85]{#1K}}
+
+\xintFor #1 in {2,3,4,5,6,7,8,9,10,V,D,R,A}\do{\AffCarteJeu[TypeJeu=Pokerv5,Hauteur=1.85]{#1T}}
+
+\AffCarteJeu[TypeJeu=Pokerv5,Hauteur=1.85]{JN}\AffCarteJeu[TypeJeu=Pokerv5,Hauteur=1.85]{JR}\AffCarteJeu[TypeJeu=Pokerv3,Hauteur=1.85]{DosRouge}\AffCarteJeu[TypeJeu=Pokerv5,Hauteur=1.85]{DosNoir}%
 
 \subsection{Cartes Tarot}
 
@@ -810,7 +866,7 @@ Les \Cle{Clés} sont les mêmes que pour la commande individuelle, avec en plus 
 
 \AffCartesJeu[TypeJeu=Uno,Hauteur=1.85]{0V § 1V § 2V § 3V § 4V § 5V § 6V § 7V § 8V § 9V § P2V § PTV § CSV}
 
-\AffCartesJeu[TypeJeu=Uno,Hauteur=1.85]{P4 § Coul}
+\AffCartesJeu[TypeJeu=Uno,Hauteur=1.85]{P4 § Coul § Dos}
 
 \subsection{MiniCartes}
 
@@ -846,10 +902,10 @@ L'\textit{origine} des cartes est fixée, au coin bas-gauche, et la \Cle{Rotatio
 \begin{codetex}[]
 \begin{tikzpicture}
 	\draw[thin,lightgray] (-5,-5) grid (5,3) ; %grille rajoutée pour la lisibilité du code
-	\foreach \ptsupport in {(0,0),(3,-4),(-3,-1),(-2,-3.5),(2,2.75),(-4.5,-4.5)}%
+	\foreach \ptsupport in {(0,0),(3,-4),(-3,-1),(-2,-3.5),(2,2.75),(-4.5,-4.5),,(1,-2.5)}%
 		{\filldraw[Gray] \ptsupport circle[radius=2pt] ;}  %poits rajouté pour la lisibilité du code
-	\foreach \x in {-5,-4,...,5} \draw[lightgray] (\x,-5) node[below,font=\small] {\x} ;
-	\foreach \y in {-5,-4,...,3} \draw[lightgray] (-5,\y) node[left,font=\small] {\y} ;
+	\foreach \x in {-5,-4,...,5} \draw[lightgray] (\x,-5) node[below,font=\small] {$\x$} ;
+	\foreach \y in {-5,-4,...,3} \draw[lightgray] (-5,\y) node[left,font=\small] {$\y$} ;
 	\AffCarteJeu[Hauteur=2,Tikz=true,TikzAutonome=false]%
 		{10C}
 	\AffCarteJeu[TypeJeu=Pokerv2,Hauteur=2.5,Tikz=true,TikzAutonome=false,DecalageX=3,DecalageY=-4]%
@@ -863,6 +919,9 @@ L'\textit{origine} des cartes est fixée, au coin bas-gauche, et la \Cle{Rotatio
 		{18AT}
 	\AffCarteJeu[TypeJeu=Uno,Hauteur=2,Tikz=true,TikzAutonome=false,DecalageX=-4.5,DecalageY=-4.5]%
 		{P4}
+	\AffCarteJeu%
+		[TypeJeu=Pokerv4,Hauteur=1.75,Tikz=true,TikzAutonome=false,Rotation=-10,DecalageX=1,DecalageY=-2.5]%
+		{RP}
 \end{tikzpicture}
 \end{codetex}
 
