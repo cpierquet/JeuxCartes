@@ -69,8 +69,8 @@
 \setlength{\parindent}{0pt}
 \definecolor{LightGray}{gray}{0.9}
 
-\def\TPversion{0.2.4}
-\def\TPdate{18 Mars 2023}
+\def\TPversion{0.2.5}
+\def\TPdate{06 juin 2023}
 
 \usepackage[most]{tcolorbox}
 \usepackage[outputdir=build]{minted}
@@ -208,6 +208,8 @@ Une commande pour des cartes en version \og miniatures \fg{} (individuelle, main
 \pagebreak
 
 \part{Historique}
+
+{\small \bverb|v0.2.5|~:~~~~Compatibilité des \textit{Mini}-Cartes avec les cartes avec nom anglais.
 
 {\small \bverb|v0.2.4|~:~~~~Ajout du style carte Poker \textsf{fr} + style Bicycle \textsf{bicycl} + ajout d'une clé \textsf{<StyleJeu>}
 
@@ -684,7 +686,7 @@ Ces \textit{mini-}cartes sont des figures \TikZ, alignées verticalement sur leu
 \begin{codetex}[]
 Si on met du texte sur la ligne du dessus, on peut voir le résultat.\\
 Voilà des exemples de mini-cartes, \AffMiniCarteJeu{7.K}\AffMiniCarteJeu{1.AT}\AffMiniCarteJeu{V.K}\AffMiniCarteJeu{10.C}, intégrables dans un paragraphe.\\
-Si on met du texte sur la ligne du dessous, on peut voir le résultat.
+Si on met du texte sur la ligne du dessous, on peut voir le résultat, avec ici des mini-cartes anglaises \AffMiniCarteJeu{K.T}\AffMiniCarteJeu{JO.R}\AffMiniCarteJeu{Q.C}\AffMiniCarteJeu{J.P}.
 \end{codetex}
 
 \subsection{Noms des \textit{mini-}cartes}
@@ -693,11 +695,11 @@ Si on met du texte sur la ligne du dessous, on peut voir le résultat.
 Pour des raisons internes au code, les cartes doivent être saisies suivant la nomenclature (noter l'utilisation du \ctex{.} pour séparer la hauteur de la couleur !)  :
 
 \begin{itemize}
-	\item \texttt{2.C}, \texttt{3.C}, \ldots, \texttt{C.C}, \texttt{D.C}, \texttt{R.C}, \texttt{A.C}\dotfill\Cle{Cœur}
-	\item \texttt{2.P}, \texttt{3.P}, \ldots, \texttt{C.P}, \texttt{D.P}, \texttt{R.P}, \texttt{A.P}\dotfill\Cle{Pique}
-	\item \texttt{2.K}, \texttt{3.K}, \ldots, \texttt{C.K}, \texttt{D.K}, \texttt{R.K}, \texttt{A.K}\dotfill\Cle{Carreau}
-	\item \texttt{2.T}, \texttt{3.T}, \ldots, \texttt{K.T}, \texttt{D.T}, \texttt{R.T}, \texttt{A.T}\dotfill\Cle{Trèfle}
-	\item \texttt{J.N}, \texttt{J.R}\dotfill\Cle{Joker}
+	\item \texttt{2.C}, \texttt{3.C}, \ldots, \texttt{C.C}, \texttt{D.C}, \texttt{R.C}, \texttt{A.C}, \texttt{J.C}, \texttt{Q.C}, \texttt{K.C}\dotfill\Cle{Cœur}
+	\item \texttt{2.P}, \texttt{3.P}, \ldots, \texttt{C.P}, \texttt{D.P}, \texttt{R.P}, \texttt{A.P}, \texttt{J.P}, \texttt{Q.P}, \texttt{K.P}\dotfill\Cle{Pique}
+	\item \texttt{2.K}, \texttt{3.K}, \ldots, \texttt{C.K}, \texttt{D.K}, \texttt{R.K}, \texttt{A.K}, \texttt{J.K}, \texttt{Q.K}, \texttt{K.K}\dotfill\Cle{Carreau}
+	\item \texttt{2.T}, \texttt{3.T}, \ldots, \texttt{K.T}, \texttt{D.T}, \texttt{R.T}, \texttt{A.T}, \texttt{J.T}, \texttt{Q.T}, \texttt{K.T}\dotfill\Cle{Trèfle}
+	\item \cmaj{0.2.5} \texttt{JO.N}, \texttt{JO.R}\dotfill\Cle{Joker}
 	\item \texttt{Exc}, \texttt{1.AT}, \texttt{2.AT}, \ldots, \texttt{20.T}, \texttt{21.AT}\dotfill\Cle{Atouts}
 \end{itemize}
 
@@ -721,6 +723,7 @@ Quelques \Cle{options} pour les \textit{mini-}cartes :
 
 \begin{codetex}[]
 \foreach \EECARTE in {2,3,4,5,6,7,8,9,10,V,C,D,R,A}{\AffMiniCarteJeu[Largeur=0.75cm]{\EECARTE.K}}\\
+\foreach \EECARTE in {2,3,4,5,6,7,8,9,10,J,Q,K,A}{\AffMiniCarteJeu[Largeur=0.75cm]{\EECARTE.P}}\\
 \AffMiniCarteJeu[FondAtout=cyan,Largeur=0.75cm]{Exc}%
 \foreach \EECARTE in {1,2,...,21}{\AffMiniCarteJeu[FondAtout=cyan,Largeur=0.75cm]{\EECARTE.AT}}
 \end{codetex}
@@ -738,23 +741,30 @@ Comme pour les cartes \textit{classiques}, il existe deux commandes pour des \te
 \end{codetex}
 
 \begin{codecles}
-Les \Cle{Clés} sont les mêmes que pour la commande individuelle, avec en plus :
-
+Les \Cle{Clés} sont les mêmes que pour la commande individuelle, avec en plus la clé \Cle{TypeJeu} parmi :
 \begin{itemize}
-	\item la clé \Cle{TypeJeu} (parmi \Cle{Poker} ou \Cle{Tarot} ou \Cle{Belote} ou \Cle{Bataille} ou \Cle{Rami}). \hfill{}défaut \Cle{Poker}
+	\item \Cle{Poker} ou \Cle{Tarot} ou \Cle{Belote} ou \Cle{Bataille} ou \Cle{Rami} pour les cartes [fr] ;
+	\item \cmaj{0.2.5} \Cle{PokerEN} ou \Cle{BeloteEN} ou \Cle{BatailleEN} ou \Cle{RamiEN} pour les cartes [en] ;
 \end{itemize}
+\hfill{}défaut \Cle{Poker}
 \end{codecles}
 
 \begin{codetex}[]
 \textbf{\large Saisie de mains : }\\
-\MainMiniCartesJeu{7.K § A.P § D.T § V.K § 10.C § C.T} et~
+\MainMiniCartesJeu{7.K § A.P § D.T § V.K § 10.C § C.T § JO.N} et~
 \MainMiniCartesJeu{Exc § 1.AT § C.C § 8.T § 2.K § 5.AT § 2.AT § D.P § 7.T § 10.C § 19.AT § V.P}\\
 
 \textbf{\large Poker : }\\
 \MainMiniCartesJeuAleatoire{5} ou \MainMiniCartesJeuAleatoire{5} ou \MainMiniCartesJeuAleatoire{5} ou \MainMiniCartesJeuAleatoire{5}.\\
 
+\textbf{\large Poker [en] : }\\
+\MainMiniCartesJeuAleatoire[TypeJeu=PokerEN]{5} ou \MainMiniCartesJeuAleatoire[TypeJeu=PokerEN]{5} ou \MainMiniCartesJeuAleatoire[TypeJeu=PokerEN]{5} ou \MainMiniCartesJeuAleatoire[TypeJeu=PokerEN]{5}.\\
+
 \textbf{\large Belote :}\\
 \MainMiniCartesJeuAleatoire[TypeJeu=Belote]{8} ou \MainMiniCartesJeuAleatoire[TypeJeu=Belote]{8} ou \MainMiniCartesJeuAleatoire[TypeJeu=Belote]{8}.\\
+
+\textbf{\large Belote [en] :}\\
+\MainMiniCartesJeuAleatoire[TypeJeu=BeloteEN]{8} ou \MainMiniCartesJeuAleatoire[TypeJeu=BeloteEN]{8} ou \MainMiniCartesJeuAleatoire[TypeJeu=BeloteEN]{8}.\\
 
 \textbf{\large Bataille : }\\
 \MainMiniCartesJeuAleatoire[TypeJeu=Bataille]{12} ou \MainMiniCartesJeuAleatoire[TypeJeu=Bataille]{12}.\\
@@ -763,7 +773,12 @@ Les \Cle{Clés} sont les mêmes que pour la commande individuelle, avec en plus 
 \MainMiniCartesJeuAleatoire[TypeJeu=Tarot]{10} ou \MainMiniCartesJeuAleatoire[TypeJeu=Tarot]{10}.\\
 
 \textbf{\large Rami : }\\
-\MainMiniCartesJeuAleatoire[TypeJeu=Rami]{15} ou \MainMiniCartesJeuAleatoire[TypeJeu=Rami]{14}.
+\MainMiniCartesJeuAleatoire[TypeJeu=Rami]{15} ou\\
+\MainMiniCartesJeuAleatoire[TypeJeu=Rami]{14}.\\
+
+\textbf{\large Rami [en] : }\\
+\MainMiniCartesJeuAleatoire[TypeJeu=RamiEN]{15} ou\\
+\MainMiniCartesJeuAleatoire[TypeJeu=RamiEN]{14}.
 \end{codetex}
 
 \pagebreak
@@ -925,15 +940,15 @@ Dos disponibles : \texttt{DosBleu} ou \texttt{DosRouge}
 
 \subsection{MiniCartes}
 
-\xintFor #1 in {2,3,4,5,6,7,8,9,10,V,C,D,R,A}\do{\AffMiniCarteJeu{#1.P}}
+\xintFor #1 in {2,3,4,5,6,7,8,9,10,V,C,D,R,A}\do{\AffMiniCarteJeu{#1.P}} et \xintFor #1 in {J,Q,K}\do{\AffMiniCarteJeu{#1.P}}
 
-\xintFor #1 in {2,3,4,5,6,7,8,9,10,V,C,D,R,A}\do{\AffMiniCarteJeu{#1.C}}
+\xintFor #1 in {2,3,4,5,6,7,8,9,10,V,C,D,R,A}\do{\AffMiniCarteJeu{#1.C}} et \xintFor #1 in {J,Q,K}\do{\AffMiniCarteJeu{#1.C}}
 
-\xintFor #1 in {2,3,4,5,6,7,8,9,10,V,C,D,R,A}\do{\AffMiniCarteJeu{#1.K}}
+\xintFor #1 in {2,3,4,5,6,7,8,9,10,V,C,D,R,A}\do{\AffMiniCarteJeu{#1.K}} et \xintFor #1 in {J,Q,K}\do{\AffMiniCarteJeu{#1.K}}
 
-\xintFor #1 in {2,3,4,5,6,7,8,9,10,V,C,D,R,A}\do{\AffMiniCarteJeu{#1.T}}
+\xintFor #1 in {2,3,4,5,6,7,8,9,10,V,C,D,R,A}\do{\AffMiniCarteJeu{#1.T}} et \xintFor #1 in {J,Q,K}\do{\AffMiniCarteJeu{#1.T}}
 
-\AffMiniCarteJeu{J.N}\AffMiniCarteJeu{J.R}
+\AffMiniCarteJeu{JO.N}\AffMiniCarteJeu{JO.R}
 
 \medskip
 

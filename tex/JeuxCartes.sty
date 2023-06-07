@@ -11,8 +11,9 @@
 % Uno   v1 cards Image's Licence.: MIT License https://eperezcosano.github.io/uno-part1/
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{JeuxCartes}[2023/03/18 v0.2.4 Jeux de cartes]
-% 0.2.4	Style <fr> avec carte française + <bicycl> + modification des clés avec l'ajout de <StyleJeu> + Suppression xcolor
+\ProvidesPackage{JeuxCartes}[2023/06/06 v0.2.5 Jeux de cartes]
+% 0.2.5	Correction d'un dysfonctionnement avec le J qui peut désormais être utilisé en MiniCarte avec le Joker [en] + MiniMains [en]
+% 0.2.4	Style <fr> avec cartes françaises + <bicycl> + modification des clés avec l'ajout de <StyleJeu> + Suppression xcolor
 % 0.2.3	Ajout d'une option pour présenter une main "inversée" + style <v5>
 % 0.2.2	Correction de 2 cartes de pokerv4
 % 0.2.2	Ajout d'un style <v4> pour le poker
@@ -376,6 +377,10 @@
 	\end{tikzpicture}%
 }
 
+%------commande pour remonter le Q ttfamily
+\DeclareRobustCommand*{\RaiseBoxByDepth}{%
+	\raisebox{\depth}%
+}
 %------commande mini-cartes
 \defKV[AffMiniCartes]{%
 	Largeur=\def\MiniCarteLargeur{#1},%
@@ -409,11 +414,13 @@
 	\IfStrEq{\csVal}{21}{\def\csVal{\scalebox{0.5}[1]{21}}}{}%
 	%le cas de Excuse
 	\IfStrEq{#2}{Exc}%
-	{\def\csSymb{\ding{168}}\def\csCoul{blue}%
-		\def\csVal{\scalebox{0.33}[1]{EXC}}}{}%
+		{\def\csSymb{\ding{168}}\def\csCoul{blue}\def\csVal{\scalebox{0.33}[1]{EXC}}}{}%
 	%le cas du Joker
-	\IfStrEq{\csVal}{J}%
+	\IfStrEq{\csVal}{JO}%
 		{\def\csSymb{\ding{166}}\def\csVal{\scalebox{0.5}[1]{JO}}}{}%
+	%le cas de la dame [en] Q
+	\IfStrEq{\csVal}{Q}%
+		{\def\csVal{\RaiseBoxByDepth{\scalebox{1}[0.8]{Q}}}}{}%
 	%si c'est un coeur
 	\IfStrEq{\csCplt}{C}%
 		{\def\csSymb{\ding{170}}\def\csCoul{red}}{}%
@@ -433,7 +440,7 @@
 	\IfStrEq{\csCplt}{R}%
 		{\def\csCoul{red}}{}%
 	%minicarte
-	\tikz[baseline=(char.base)]\node[anchor=north west,line width=0.7pt,draw=gray,rectangle,rounded corners,inner sep=1.6pt,fill=\csFond,text=\csCoul,font=\ttfamily,minimum width=\MiniCarteLargeur](char){\csVal\scalebox{0.75}[0.75]{\csSymb}};%
+	\tikz[baseline=(char.base)]\node[anchor=north west,line width=0.7pt,draw=gray,rectangle,rounded corners=3pt,inner sep=1.5pt,fill=\csFond,text=\csCoul,font=\ttfamily,minimum width=\MiniCarteLargeur](char){\vphantom{A}\csVal\scalebox{0.75}[0.75]{\csSymb}};%
 }
 
 %------commande mini-main-cartes
@@ -470,10 +477,14 @@
 }
 
 \xdef\MiniCartesJeuPoker{2.P,3.P,4.P,5.P,6.P,7.P,8.P,9.P,10.P,V.P,D.P,R.P,A.P,2.T,3.T,4.T,5.T,6.T,7.T,8.T,9.T,10.T,V.T,D.T,R.T,A.T,2.C,3.C,4.C,5.C,6.C,7.C,8.C,9.C,10.C,V.C,D.C,R.C,A.C,2.K,3.K,4.K,5.K,6.K,7.K,8.K,9.K,10.K,V.K,D.K,R.K,A.K}%
+\xdef\MiniCartesJeuPokerEN{2.P,3.P,4.P,5.P,6.P,7.P,8.P,9.P,10.P,J.P,Q.P,K.P,A.P,2.T,3.T,4.T,5.T,6.T,7.T,8.T,9.T,10.T,J.T,Q.T,K.T,A.T,2.C,3.C,4.C,5.C,6.C,7.C,8.C,9.C,10.C,J.C,Q.C,K.C,A.C,2.K,3.K,4.K,5.K,6.K,7.K,8.K,9.K,10.K,J.K,Q.K,K.K,A.K}%
 \xdef\MiniCartesJeuBelote{7.P,8.P,9.P,10.P,V.P,D.P,R.P,A.P,7.T,8.T,9.T,10.T,V.T,D.T,R.T,A.T,7.C,8.C,9.C,10.C,V.C,D.C,R.C,A.C,7.K,8.K,9.K,10.K,V.K,D.K,R.K,A.K}%
-\xdef\MiniCartesJeuBataille{2.P,3.P,4.P,5.P,6.P,7.P,8.P,9.P,10.P,V.P,D.P,R.P,A.P,2.T,3.T,4.T,5.T,6.T,7.T,8.T,9.T,10.T,V.T,D.T,R.T,A.T,2.C,3.C,4.C,5.C,6.C,7.C,8.C,9.C,10.C,V.C,D.C,R.C,A.C,2.K,3.K,4.K,5.K,6.K,7.K,8.K,9.K,10.K,V.K,D.K,R.K,A.K,J.N,J.R}%
+\xdef\MiniCartesJeuBeloteEN{7.P,8.P,9.P,10.P,J.P,Q.P,K.P,A.P,7.T,8.T,9.T,10.T,J.T,Q.T,K.T,A.T,7.C,8.C,9.C,10.C,J.C,Q.C,K.C,A.C,7.K,8.K,9.K,10.K,J.K,Q.K,K.K,A.K}%
+\xdef\MiniCartesJeuBataille{2.P,3.P,4.P,5.P,6.P,7.P,8.P,9.P,10.P,V.P,D.P,R.P,A.P,2.T,3.T,4.T,5.T,6.T,7.T,8.T,9.T,10.T,V.T,D.T,R.T,A.T,2.C,3.C,4.C,5.C,6.C,7.C,8.C,9.C,10.C,V.C,D.C,R.C,A.C,2.K,3.K,4.K,5.K,6.K,7.K,8.K,9.K,10.K,V.K,D.K,R.K,A.K,JO.N,JO.R}%
+\xdef\MiniCartesJeuBatailleEN{2.P,3.P,4.P,5.P,6.P,7.P,8.P,9.P,10.P,J.P,Q.P,K.P,A.P,2.T,3.T,4.T,5.T,6.T,7.T,8.T,9.T,10.T,J.T,Q.T,K.T,A.T,2.C,3.C,4.C,5.C,6.C,7.C,8.C,9.C,10.C,J.C,Q.C,K.C,A.C,2.K,3.K,4.K,5.K,6.K,7.K,8.K,9.K,10.K,J.K,Q.K,K.K,A.K,JO.N,JO.R}%
 \xdef\MiniCartesJeuTarot{2.P,3.P,4.P,5.P,6.P,7.P,8.P,9.P,10.P,V.P,C.P,D.P,R.P,A.P,2.T,3.T,4.T,5.T,6.T,7.T,8.T,9.T,10.T,V.T,C.T,D.T,R.T,A.T,2.C,3.C,4.C,5.C,6.C,7.C,8.C,9.C,10.C,V.C,C.C,D.C,R.C,A.C,2.K,3.K,4.K,5.K,6.K,7.K,8.K,9.K,10.K,V.K,C.K,D.K,R.K,A.K,1.AT,2.AT,3.AT,4.AT,5.AT,6.AT,7.AT,8.AT,9.AT,10.AT,11.AT,12.AT,13.AT,14.AT,15.AT,16.AT,17.AT,18.AT,19.AT,20.AT,21.AT,Exc}%
-\xdef\MiniCartesJeuRami{2.P,3.P,4.P,5.P,6.P,7.P,8.P,9.P,10.P,V.P,D.P,R.P,A.P,2.T,3.T,4.T,5.T,6.T,7.T,8.T,9.T,10.T,V.T,D.T,R.T,A.T,2.C,3.C,4.C,5.C,6.C,7.C,8.C,9.C,10.C,V.C,D.C,R.C,A.C,2.K,3.K,4.K,5.K,6.K,7.K,8.K,9.K,10.K,V.K,D.K,R.K,A.K,J.N,J.R,2.P,3.P,4.P,5.P,6.P,7.P,8.P,9.P,10.P,V.P,D.P,R.P,A.P,2.T,3.T,4.T,5.T,6.T,7.T,8.T,9.T,10.T,V.T,D.T,R.T,A.T,2.C,3.C,4.C,5.C,6.C,7.C,8.C,9.C,10.C,V.C,D.C,R.C,A.C,2.K,3.K,4.K,5.K,6.K,7.K,8.K,9.K,10.K,V.K,D.K,R.K,A.K,J.N,J.R}%
+\xdef\MiniCartesJeuRami{2.P,3.P,4.P,5.P,6.P,7.P,8.P,9.P,10.P,V.P,D.P,R.P,A.P,2.T,3.T,4.T,5.T,6.T,7.T,8.T,9.T,10.T,V.T,D.T,R.T,A.T,2.C,3.C,4.C,5.C,6.C,7.C,8.C,9.C,10.C,V.C,D.C,R.C,A.C,2.K,3.K,4.K,5.K,6.K,7.K,8.K,9.K,10.K,V.K,D.K,R.K,A.K,JO.N,JO.R,2.P,3.P,4.P,5.P,6.P,7.P,8.P,9.P,10.P,V.P,D.P,R.P,A.P,2.T,3.T,4.T,5.T,6.T,7.T,8.T,9.T,10.T,V.T,D.T,R.T,A.T,2.C,3.C,4.C,5.C,6.C,7.C,8.C,9.C,10.C,V.C,D.C,R.C,A.C,2.K,3.K,4.K,5.K,6.K,7.K,8.K,9.K,10.K,V.K,D.K,R.K,A.K,JO.N,JO.R}%
+\xdef\MiniCartesJeuRamiEN{2.P,3.P,4.P,5.P,6.P,7.P,8.P,9.P,10.P,J.P,Q.P,K.P,A.P,2.T,3.T,4.T,5.T,6.T,7.T,8.T,9.T,10.T,J.T,Q.T,K.T,A.T,2.C,3.C,4.C,5.C,6.C,7.C,8.C,9.C,10.C,J.C,Q.C,K.C,A.C,2.K,3.K,4.K,5.K,6.K,7.K,8.K,9.K,10.K,J.K,Q.K,K.K,A.K,JO.N,JO.R,2.P,3.P,4.P,5.P,6.P,7.P,8.P,9.P,10.P,J.P,Q.P,K.P,A.P,2.T,3.T,4.T,5.T,6.T,7.T,8.T,9.T,10.T,J.T,Q.T,K.T,A.T,2.C,3.C,4.C,5.C,6.C,7.C,8.C,9.C,10.C,J.C,Q.C,K.C,A.C,2.K,3.K,4.K,5.K,6.K,7.K,8.K,9.K,10.K,J.K,Q.K,K.K,A.K,JO.N,JO.R}%
 \NewList{MiniCartesJeuMelange}
 
 \NewDocumentCommand\MainMiniCartesJeuAleatoire{ O{} m }{%1=options,2=nbcartes
@@ -481,6 +492,7 @@
 	\setKV[MiniMainAleaCartes]{#1}%
 	%melange du jeu
 	\ClearList{MiniCartesJeuMelange}%
+	%Cartes [fr]
 	\IfStrEq{\MiniMainAleaType}{Poker}%si c'est le poker
 	{%
 		\xintFor* ##1 in {\xintCSVtoList{\MiniCartesJeuPoker}}%
@@ -508,6 +520,31 @@
 	\IfStrEq{\MiniMainAleaType}{Rami}%si c'est le rami
 	{%
 		\xintFor* ##1 in {\xintCSVtoList{\MiniCartesJeuRami}}%
+		\do{\InsertRandomItem{MiniCartesJeuMelange}{##1}}%
+	}%
+	{}%
+	%Cartes [en]
+	\IfStrEq{\MiniMainAleaType}{PokerEN}%si c'est le poker
+	{%
+		\xintFor* ##1 in {\xintCSVtoList{\MiniCartesJeuPokerEN}}%
+		\do{\InsertRandomItem{MiniCartesJeuMelange}{##1}}%
+	}%
+	{}%
+	\IfStrEq{\MiniMainAleaType}{BatailleEN}%si c'est la bataille
+	{%
+		\xintFor* ##1 in {\xintCSVtoList{\MiniCartesJeuBatailleEN}}%
+		\do{\InsertRandomItem{MiniCartesJeuMelange}{##1}}%
+	}%
+	{}%
+	\IfStrEq{\MiniMainAleaType}{BeloteEN}%si c'est le belote
+	{%
+		\xintFor* ##1 in {\xintCSVtoList{\MiniCartesJeuBeloteEN}}%
+		\do{\InsertRandomItem{MiniCartesJeuMelange}{##1}}%
+	}%
+	{}%
+	\IfStrEq{\MiniMainAleaType}{RamiEN}%si c'est le rami
+	{%
+		\xintFor* ##1 in {\xintCSVtoList{\MiniCartesJeuRamiEN}}%
 		\do{\InsertRandomItem{MiniCartesJeuMelange}{##1}}%
 	}%
 	{}%
