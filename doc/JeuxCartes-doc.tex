@@ -69,8 +69,8 @@
 \setlength{\parindent}{0pt}
 \definecolor{LightGray}{gray}{0.9}
 
-\def\TPversion{0.2.5}
-\def\TPdate{06 juin 2023}
+\def\TPversion{0.2.6}
+\def\TPdate{05 août 2023}
 
 \usepackage[most]{tcolorbox}
 \usepackage[outputdir=build]{minted}
@@ -209,6 +209,8 @@ Une commande pour des cartes en version \og miniatures \fg{} (individuelle, main
 
 \part{Historique}
 
+{\small \bverb|v0.2.6|~:~~~~Ajout d'un style \textsf{v2} pour le Tarot (png basés sur le style \textit{Piatnik} en attendant du vectoriel ?).
+
 {\small \bverb|v0.2.5|~:~~~~Compatibilité des \textit{Mini}-Cartes avec les cartes avec nom anglais.
 
 {\small \bverb|v0.2.4|~:~~~~Ajout du style carte Poker \textsf{fr} + style Bicycle \textsf{bicycl} + ajout d'une clé \textsf{<StyleJeu>}
@@ -255,6 +257,7 @@ Les cartes disponibles sont : :
 	\item \cmaj{0.2.4} les cartes type \textsf{Poker fr} (LGPL-2.1 license) \url{https://svg-cards.sourceforge.net/}
 	\item \cmaj{0.2.4} les cartes type \textsf{bicycle} (LGPL-3.0 license) \url{https://github.com/tfbkny/blackjack}
 	\item les cartes type \textsf{Tarot} (Public Domain) \url{https://freesvg.org/deck-of-french-tarot-playing-cards}
+	\item \cmaj{0.2.6} les cartes type \textsf{Tarot v2} (CC 3.0)  \url{https://dic.academic.ru/dic.nsf/ruwiki/647267}
 	\item les cartes type \textsf{Uno} (MIT License) \url{https://eperezcosano.github.io/uno-part1/}
 \end{itemize}
 \end{codeidee}
@@ -386,10 +389,16 @@ La commande \ctex{\textbackslash AffCartesJeu} affiche une liste de cartes en mo
 \end{codeinfo}
 
 \begin{codetex}[]
-\AffCarteJeu{VP}\AffCarteJeu{10K}\AffCarteJeu{AC}\AffCarteJeu{Dos}\AffCarteJeu{DT}\\ \\
+\AffCarteJeu{VP}\AffCarteJeu{10K}\AffCarteJeu{AC}\AffCarteJeu{Dos}\AffCarteJeu{DT}
+\end{codetex}
+
+\begin{codetex}[]
 \AffCarteJeu[TypeJeu=Tarot]{VP}\AffCarteJeu[TypeJeu=Tarot]{Dos}%
 \AffCarteJeu[TypeJeu=Tarot]{Exc}\AffCarteJeu[TypeJeu=Tarot]{1AT}%
 \AffCarteJeu[TypeJeu=Tarot]{10K}\AffCarteJeu[TypeJeu=Tarot]{18AT}\\ \\
+\end{codetex}
+
+\begin{codetex}[]
 \AffCartesJeu[TypeJeu=Uno]{P4 § PTR § Dos § Coul § 7B § 8V}
 \end{codetex}
 
@@ -447,7 +456,7 @@ Concernant les \Cle{options} :
 \begin{itemize}
 	\item la clé \Cle{Hauteur} correspond à la hauteur voulue, en cm, de la carte ; \hfill{}défaut \Cle{4.25}
 	\item la clé \Cle{TypeJeu} (parmi \Cle{Poker} ou \Cle{Tarot} ou \Cle{Uno}) pour spécifier les cartes à utiliser ; \hfill{}défaut \Cle{Poker}
-	\item \cmaj{0.2.4} la clé \Cle{Stylejeu} (parmi \Cle{v1}, \ldots, \Cle{v5}, \Cle{fr} ou \Cle{bicycl}) pour spécifier le style des cartes \textsf{Poker} ; \hfill{}défaut \Cle{v1}
+	\item \cmaj{0.2.4} la clé \Cle{Stylejeu} parmi \Cle{v1}, \ldots, \Cle{v5}, \Cle{fr} ou \Cle{bicycl} pour spécifier le style des cartes \textsf{Poker} ; ou parmi \Cle{v1} ou \Cle{v2} pour le style des cartes \textsf{Tarot} ; \hfill{}défaut \Cle{v1}
 	\item la clé \Cle{Rotation} pour une éventuelle rotation de la carte ; \hfill{}défaut \Cle{0}
 	\item la clé \Cle{AlignementV} pour l'alignement vertical (lié à \ctex{raisebox} ou à \TikZ) ; \hfill{}défaut \Cle{0.5}
 	\item le booléen \Cle{Tikz} pour préciser que la carte est \textit{autonome}, dans un environnement \ctex{tikzpicture} ; \hfill{}défaut \Cle{false}
@@ -480,7 +489,7 @@ En mode normal, \AffCarteJeu{VP} ou \AffCarteJeu[AlignementV=0]{Dos} ou
 En mode \TikZ, \AffCarteJeu[Hauteur=2,Tikz]{VP}
 ou \AffCarteJeu[Hauteur=2,AlignementV=0,Tikz]{AC}
 ou \AffCarteJeu[Hauteur=2,AlignementV=1,Tikz]{10K}
-ou \AffCarteJeu[Hauteur=2,TypeJeu=Tarot,AlignementV=0.33,Rotation=-25]{10AT}.\\ \\
+ou \AffCarteJeu[Hauteur=2,TypeJeu=Tarot,StyleJeu=v2,AlignementV=0.33,Rotation=-25]{10AT}.\\ \\
 On obtient la main \AffCartesJeu[Hauteur=2,TypeJeu=Uno]{9B § 8R § P2J § P4 § 0J § CSR § PTJ}.
 \end{codetex}
 
@@ -512,6 +521,26 @@ Il existe 7 versions de design des cartes \textit{classiques}, accessibles via l
 \textbf{Design v5} :\\ \AffCartesJeu[Hauteur=2,StyleJeu=v5]{DK § AP § 10T § VP § 8T § RT § 9C} \\ \\
 \textbf{Design fr} :\\ \AffCartesJeu[Hauteur=2,StyleJeu=fr]{DK § AP § 10T § VP § 8T § RT § 9C} \hfill\cmaj{0.2.4}\\ \\
 \textbf{Design bi} :\\ \AffCartesJeu[Hauteur=2,StyleJeu=bicycl]{DK § AP § 10T § VP § 8T § RT § 9C}\hfill\cmaj{0.2.4} \\
+\end{codetex}
+
+\pagebreak
+
+\pagebreak
+
+\subsection{Designs disponibles pour les cartes de Tarot}
+
+\begin{codeinfo}
+Il existe 2 versions de design des cartes \textit{tarot}, accessibles via les clés :
+
+\begin{itemize}
+	\item \Cle{v1} ;
+	\item \Cle{v2} \cmaj{0.2.6}.
+\end{itemize}
+\end{codeinfo}
+
+\begin{codetex}[]
+\textbf{Design v1} :\\ \AffCartesJeu[Hauteur=4,TypeJeu=Tarot,StyleJeu=v1]{DK § AP § 2AT § Exc § 10K § 1AT} \\ \\
+\textbf{Design v2} :\\ \AffCartesJeu[Hauteur=4,TypeJeu=Tarot,StyleJeu=v2]{DK § AP § 2AT § Exc § 10K § 1AT} \hfill\cmaj{0.2.6} \\
 \end{codetex}
 
 \pagebreak
@@ -591,7 +620,7 @@ Les exemples proposés dans cette documentation permettent de se rendre compte d
 
 \smallskip
 
-Et un chien qui en a  : \MainCartesJeu[Eventail,Hauteur=2,TypeJeu=Tarot,EspH=0.5,EspV=0.15,Rotation=20]%
+Et un chien qui en a  : \MainCartesJeu[Eventail,Hauteur=3.25,TypeJeu=Tarot,StyleJeu=v2,EspH=0.5,EspV=0.15,Rotation=20]%
 	{DK § 10AT § 16AT § VP § 1AT}
 \end{codetex}
 
@@ -657,7 +686,7 @@ En ce qui concerne les \textit{jeux} disponibles (non modifiables) :
 \MainCartesJeuAleatoire[Hauteur=2.5,TypeJeu=Bataille,StyleJeu=v2]{27}\\ \\
 \textbf{\large Tarot :} \\
 \MainCartesJeuAleatoire[Hauteur=3.25,TypeJeu=Tarot]{10} ou~
-\MainCartesJeuAleatoire[Hauteur=3.25,Eventail,TypeJeu=Tarot,EspH=0,EspV=0.1]{10}.
+\MainCartesJeuAleatoire[Hauteur=3.25,Eventail,TypeJeu=Tarot,EspH=0,EspV=0.1,StyleJeu=v2]{10}.
 \end{codetex}
 
 \begin{codetex}[]
@@ -907,7 +936,7 @@ Dos disponibles : \texttt{DosBleu} ou \texttt{DosRouge}
 
 \AffCarteJeu[StyleJeu=bicycl,Hauteur=1.85]{JN}\AffCarteJeu[StyleJeu=bicycl,Hauteur=1.85]{JR}\AffCarteJeu[StyleJeu=bicycl,Hauteur=1.85]{DosRouge}\AffCarteJeu[StyleJeu=bicycl,Hauteur=1.85]{DosBleu}%
 
-\subsection{Cartes Tarot}
+\subsection{Cartes Tarot (v1)}
 
 \xintFor #1 in {2,3,4,5,6,7,8,9,10,V,C,D,R,A}\do{\AffCarteJeu[TypeJeu=Tarot,Hauteur=1.85]{#1P}}
 
@@ -925,6 +954,21 @@ Dos disponibles : \texttt{DosBleu} ou \texttt{DosRouge}
 \AffCarteJeu[TypeJeu=Tarot,Hauteur=1.85]{Dos}
 
 \pagebreak
+
+\subsection{Cartes Tarot (v2)}
+
+\xintFor #1 in {2,3,4,5,6,7,8,9,10,V,C,D,R,A}\do{\AffCarteJeu[TypeJeu=Tarot,StyleJeu=v2,Hauteur=1.85]{#1P}}
+
+\xintFor #1 in {2,3,4,5,6,7,8,9,10,V,C,D,R,A}\do{\AffCarteJeu[TypeJeu=Tarot,StyleJeu=v2,Hauteur=1.85]{#1C}}
+
+\xintFor #1 in {2,3,4,5,6,7,8,9,10,V,C,D,R,A}\do{\AffCarteJeu[TypeJeu=Tarot,StyleJeu=v2,Hauteur=1.85]{#1K}}
+
+\xintFor #1 in {2,3,4,5,6,7,8,9,10,V,C,D,R,A}\do{\AffCarteJeu[TypeJeu=Tarot,StyleJeu=v2,Hauteur=1.85]{#1T}}
+
+\AffCarteJeu[TypeJeu=Tarot,Hauteur=1.85,StyleJeu=v2]{Exc}%
+\xintFor #1 in {1,2,3,4,5,6,7,8,9,10}\do{\AffCarteJeu[TypeJeu=Tarot,StyleJeu=v2,Hauteur=1.85]{#1AT}}
+
+\xintFor #1 in {11,12,13,14,15,16,17,18,19,20,21}\do{\AffCarteJeu[TypeJeu=Tarot,StyleJeu=v2,Hauteur=1.85]{#1AT}}
 
 \subsection{Cartes de Uno}
 

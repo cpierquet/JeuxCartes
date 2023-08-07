@@ -8,10 +8,12 @@
 % Poker fr cards Image's Licence.: LGPL-2.1 license https://svg-cards.sourceforge.net/
 % Poker bi cards Image's Licence.: LGPL-3 license https://github.com/tfbkny/blackjack
 % Tarot v1 cards Image's Licence.: Public Domain https://freesvg.org/deck-of-french-tarot-playing-cards
+% Tarot v2 cards Image's Licence : CC 3.0 https://dic.academic.ru/dic.nsf/ruwiki/647267
 % Uno   v1 cards Image's Licence.: MIT License https://eperezcosano.github.io/uno-part1/
 
 \NeedsTeXFormat{LaTeX2e}
-\ProvidesPackage{JeuxCartes}[2023/06/06 v0.2.5 Jeux de cartes]
+\ProvidesPackage{JeuxCartes}[2023/08/05 v0.2.6 Jeux de cartes]
+% 0.2.6	Ajout d'un style v2 pour le tarot (style Piatnik)
 % 0.2.5	Correction d'un dysfonctionnement avec le J qui peut désormais être utilisé en MiniCarte avec le Joker [en] + MiniMains [en]
 % 0.2.4	Style <fr> avec cartes françaises + <bicycl> + modification des clés avec l'ajout de <StyleJeu> + Suppression xcolor
 % 0.2.3	Ajout d'une option pour présenter une main "inversée" + style <v5>
@@ -93,8 +95,16 @@
 		}%
 		{}%
 	%cas tarot
-	\IfStrEq{\AffCarteJeuType}{Tarot}%tarot (un seul style)
-		{\def\CartePrefixe{CaJ-TaroTv1-}}{}%
+	\IfStrEq{\AffCarteJeuType}{Tarot}%tarot
+		{
+			%cas tarotv1
+			\IfStrEq{\AffCarteJeuStyle}{v1}%tarotv1
+				{\def\CartePrefixe{CaJ-TaroTv1-}}{}%
+			%cas tarotv2
+			\IfStrEq{\AffCarteJeuStyle}{v2}%tarotv2
+				{\def\CartePrefixe{CaJ-TaroTv2-}}{}%
+		}%
+		{}%
 	%cas uno
 	\IfStrEq{\AffCarteJeuType}{Uno}%uno (un seul style)
 		{\def\CartePrefixe{CaJ-UnOv1-}}{}%
@@ -200,7 +210,16 @@
 		}%
 		{}%
 	\IfStrEq{\MainJeuType}{Tarot}%tarot
-		{\def\HauteurGenerique{5.5}\def\CarteMainPrefixe{CaJ-TaroTv1-}}{}%
+		{%
+			\def\HauteurGenerique{5.5}%
+			%cas tarotv1
+			\IfStrEq{\AffCarteJeuStyle}{v1}%tarotv1
+				{\def\CartePrefixe{CaJ-TaroTv1-}}{}%
+			%cas tarotv2
+			\IfStrEq{\AffCarteJeuStyle}{v2}%tarotv2
+				{\def\CartePrefixe{CaJ-TaroTv2-}}{}%
+		}%
+		{}%
 	\IfStrEq{\MainJeuType}{Uno}%uno
 		{\def\HauteurGenerique{8.5}\def\CarteMainPrefixe{CaJ-UnOv1-}}{}%
 	%echelle globale
